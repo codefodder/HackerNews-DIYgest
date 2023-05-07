@@ -26,6 +26,7 @@ def create_hn_table(c):
         CREATE TABLE IF NOT EXISTS stories
         (id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
+        datetime TEXT,
         link TEXT UNIQUE,
         score INT,
         comment_url TEXT,
@@ -77,6 +78,7 @@ for story in stories:
         username=ftfy.fix_text(username_elem.text).strip()
         userlink=f"{hn}{username_elem['href']}"
 
+        datetime=subline_elem.select_one('span.age')['title']
         story_score_elem = subline_elem.select_one('span.score')
         score= ftfy.fix_text(story_score_elem.text)
 
@@ -87,6 +89,7 @@ for story in stories:
         username = ""
         userlink = ""
         score = 0
+        datetime=subtext_elem.select_one('span.age')['title']
         comment_url = ""
         comment_count = 0
 
@@ -101,13 +104,13 @@ for story in stories:
     # Define the query
     query = """
         INSERT INTO stories
-        (title, link, score, comment_url, comment_count, username, userlink)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        (title, datetime, link, score, comment_url, comment_count, username, userlink)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(link) DO UPDATE SET
             score = excluded.score,
             comment_count = excluded.comment_count
     """
 
-    conn.execute(query, (title, link, score, comment_url, comment_count, username, userlink))
+    conn.execute(query, (title, datetime, link, score, comment_url, comment_count, username, userlink))
 
 disconnect_from_db(conn)
