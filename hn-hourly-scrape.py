@@ -41,18 +41,10 @@ create_hn_table(c)
 
 hn = "https://news.ycombinator.com/"
 
-# check stdin and read from that as priority.
-if select.select([sys.stdin,],[],[],0.0)[0]:
-    # There is data on stdin, so read it
-    input_data = sys.stdin.read()
-    data = input_data
-    print("Read from stdin:")
-else:
-    # There is no input on stdin, so do the default action
-    print(f"Read from {hn}")
-    # Send a request to the URL
-    res = requests.get(hn)
-    data = res.text
+print(f"Read from {hn}")
+# Send a request to the URL
+res = requests.get(hn)
+data = res.text
 
 # Parse the HTML content using BeautifulSoup
 soup = BeautifulSoup(data, 'html.parser')
