@@ -25,7 +25,7 @@ jobs:
         run: python hn-hourly-scrape.py
 
       - name: Review database
-        run: sqlite3 hn.db "SELECT datetime, title, link FROM stories; .q"
+        run: sqlite3 hn.db "SELECT datetime, title, link FROM stories;"
 
       - name: Upload database artifact
         if: always()
