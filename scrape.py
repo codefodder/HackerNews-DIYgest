@@ -24,7 +24,7 @@ def create_hn_table(c):
         CREATE TABLE IF NOT EXISTS stories
         (id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
-        link TEXT,
+        link TEXT UNIQUE,
         score INT,
         comment_url TEXT,
         comment_count INT,
@@ -45,6 +45,8 @@ soup = BeautifulSoup(res.text, 'html.parser')
 # Extract the metadata for all stories using the provided selectors
 stories = soup.select('tr.athing')
 counter = 0
+
+print("Adding stories daily to hn database.")
 
 for story in stories:
     counter += 1
@@ -74,6 +76,10 @@ for story in stories:
         comment_url = ""
         comment_count = 0
 
+
+    print(f"""
+    {title}
+    """
     # Define the query
     query = """
         INSERT INTO stories
