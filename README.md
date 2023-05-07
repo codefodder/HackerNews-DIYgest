@@ -12,21 +12,22 @@ hndigest, it's been fun. *hits unsubscribe*
 
 ## These are the tools I'll use:
 
-- [curl](needs link) for getting the hackernews page. 
-- [pup](needs link) for html scraping.
-- [ftfy](needs link) fix up garbled â€“ text.
-- [sqlite](needs link) stash the posts / links / metadata into a database
+- [curl](https://curl.se/) for getting the hackernews page.
+- [pup](https://github.com/ericchiang/pup) for html scraping.
+- [ftfy](https://github.com/LuminosoInsight/python-ftfy) fix up garbled â€“ text.
+- [sqlite](https://www.sqlite.org/index.html) stash the posts / links / metadata into a database.
 
 ## Scraping
 
 CSS selectors for the useful parts of a hackernews:
 
-- Story title: 'tr.athing td.title > span.titleline > a'
-- Story URL: 'tr.athing td.title > span.titleline > a[href]'
-- Comment URL: 'tr.athing + tr td.subtext > span.subline > a:last-child'
-- Comment count: 'tr.athing + tr td.subtext > span.subline > a:last-child > span'
-- Score: 'tr.athing + tr td.subtext > span.subline > span.score'
-- Submitted by username: 'tr.athing + tr td.subtext > span.subline > a.hnuser'
+- Story title: `tr.athing td.title > span.titleline > a`
+- Story URL: `tr.athing td.title > span.titleline > a[href]`
+- Comment URL: `tr.athing + tr td.subtext > span.subline > a:last-child`
+- Comment count: `tr.athing + tr td.subtext > span.subline > a:last-child > span`
+- Score: `tr.athing + tr td.subtext > span.subline > span.score`
+- Submitted by username: `tr.athing + tr td.subtext > span.subline > a.hnuser`
+- Datetime: `tr.athing + tr td.subtext > span.subline > span.age[title]`
 
 ``` sh
 
