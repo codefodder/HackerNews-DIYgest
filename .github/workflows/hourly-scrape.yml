@@ -1,0 +1,32 @@
+name: Hourly Scrape
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download database artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: hn_db
+        continue-on-error: true
+
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Scrape Hacker News
+        run: python hn-hourly-scrape.py
+
+      - name: Upload database artifact
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: hn_db
+          path: hn.db

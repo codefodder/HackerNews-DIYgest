@@ -3,6 +3,8 @@
 import requests
 import ftfy
 import sqlite3
+import sys
+import select
 
 from bs4 import BeautifulSoup
 
@@ -36,17 +38,29 @@ conn = connect_to_db("hn.db")
 c = conn.cursor()
 create_hn_table(c)
 
-# Send a request to the URL
 hn = "https://news.ycombinator.com/"
-res = requests.get(hn)
+
+# check stdin and read from that as priority.
+if select.select([sys.stdin,],[],[],0.0)[0]:
+    # There is data on stdin, so read it
+    input_data = sys.stdin.read()
+    data = input_data
+    print("Read from stdin:")
+else:
+    # There is no input on stdin, so do the default action
+    print(f"Read from {hn}")
+    # Send a request to the URL
+    res = requests.get(hn)
+    data = res.text
+
 # Parse the HTML content using BeautifulSoup
-soup = BeautifulSoup(res.text, 'html.parser')
+soup = BeautifulSoup(data, 'html.parser')
 
 # Extract the metadata for all stories using the provided selectors
 stories = soup.select('tr.athing')
 counter = 0
 
-print("Adding stories daily to hn database.")
+print("HackerNews Scrape/Hourly: adding stories to database...")
 
 for story in stories:
     counter += 1
@@ -60,7 +74,7 @@ for story in stories:
     subline_elem = subtext_elem.select_one('span.subline')
     if subline_elem:
         username_elem = subline_elem.select_one('a.hnuser')
-        username=ftfy.fix_text(username_elem.text)
+        username=ftfy.fix_text(username_elem.text).strip()
         userlink=f"{hn}{username_elem['href']}"
 
         story_score_elem = subline_elem.select_one('span.score')
@@ -77,9 +91,13 @@ for story in stories:
         comment_count = 0
 
 
-    print(f"""
-    {title}
-    """
+    if username:
+        print(f"{title} ({username})")
+    else:
+        print(f"{title} (YC)")
+
+    print(link)
+
     # Define the query
     query = """
         INSERT INTO stories
