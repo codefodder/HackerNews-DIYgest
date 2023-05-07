@@ -14,7 +14,7 @@ jobs:
       - name: Download database artifact
         uses: actions/download-artifact@v2
         with:
-          name: hn_db
+          name: hackernews-database
         continue-on-error: true
 
       - name: Install dependencies
@@ -27,5 +27,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: hn_db
+          name: hackernews-database
           path: hn.db
