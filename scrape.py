@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import requests
 import ftfy
 import sqlite3
@@ -60,7 +62,7 @@ for story in stories:
         userlink=f"{hn}{username_elem['href']}"
 
         story_score_elem = subline_elem.select_one('span.score')
-        story_score= ftfy.fix_text(story_score_elem.text)
+        score= ftfy.fix_text(story_score_elem.text)
 
         comment_url_elem = subline_elem.select_one('a:last-child')
         comment_url = f"{hn}{comment_url_elem['href']}"
@@ -68,7 +70,7 @@ for story in stories:
     else:
         username = ""
         userlink = ""
-        story_score = 0
+        score = 0
         comment_url = ""
         comment_count = 0
 
