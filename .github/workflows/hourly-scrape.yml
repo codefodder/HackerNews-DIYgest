@@ -23,6 +23,9 @@ jobs:
       - name: Scrape Hacker News
         run: python hn-hourly-scrape.py
 
+      - name: Review database
+        run: sqlite3 hn.db "SELECT datetime, title, link FROM stories; .q"
+
       - name: Upload database artifact
         if: always()
         uses: actions/upload-artifact@v2
