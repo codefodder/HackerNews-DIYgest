@@ -29,9 +29,37 @@ CSS selectors for the useful parts of a hackernews:
 - Submitted by username: `tr.athing + tr td.subtext > span.subline > a.hnuser`
 - Datetime: `tr.athing + tr td.subtext > span.subline > span.age[title]`
 
-``` sh
+It's worth noting that YC Posts will not have score, comments, username etc. Datetime is there, but on:
 
+- Datetime: `tr.athing + tr td.subtext > span.age[title]`
+
+## Database
+
+We will store everything in a Sqlite database, in a stories table:
+
+``` sh
+CREATE TABLE IF NOT EXISTS stories
+(id INTEGER PRIMARY KEY AUTOINCREMENT,
+title TEXT,
+datetime TEXT,
+link TEXT UNIQUE,
+score INT,
+comment_url TEXT,
+comment_count INT,
+username TEXT,
+userlink TEXT);
 ```
 
+## Cron workflow
 
+I use the Github actions scheduled workflow to periodically run and fetch stories from the hackernews front page. The score and comment count will be upated for existing stories.
 
+## What's next...
+
+The idea is this can serve as a replacement for HNDigest, and you can fork the repo to have your own.  I'll be adding a workflow that is run once a day and will select the highest scoring stories in the last 24 hours, and send those out as an email.  It should be done pretty soon. (2023-05-07 today)  A preview / sample will be shown here when that happens.
+
+I'll also have it rotate the database every year and save the old previous year's database to the project releases.
+
+I will probably make a database browser for it in Swift too, as I'm doing the same thing to browse my offline email archive.
+
+Anyway, to be continued.
