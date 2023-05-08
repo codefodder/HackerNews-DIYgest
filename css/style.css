@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&family=Source+Sans+Pro:wght@200&display=swap');
+
 body {
   background-color: #0d1117;
   color: #c9d1d9;
@@ -9,8 +11,15 @@ body {
 div.hacker-news-diygest-content {
   background-color: #0d1117;
   color: #c9d1d9;
-  font: Helvetica;
-  font-size: ;
+  font: "Source Sans Pro", "Helvetica Neue", Helvetica;
+}
+
+h1 {
+  margin: .67em 0;
+  font-weight: 600;
+  padding-bottom: .3em;
+  font-size: 4em;
+  font-family: "Roboto Slab", "Helvetica Neue", Helvetica;
 }
 
 p.delivery-date {
@@ -21,7 +30,6 @@ p.footnote {
   margin-top: 2em;
   font-size: 0.4em;
 }
-
 
 ul > li > ul {
   font-size: x-small;
@@ -35,22 +43,19 @@ a {
   background-color: transparent;
   color: #58a6ff;
   text-decoration: none;
+  outline-width: 0;
 }
 
 a:active, a:hover {
   outline-width: 0;
 }
 
-b, strong {
-  font-weight: 600;
+a:hover {
+  text-decoration: underline;
 }
 
-h1 {
-  margin: .67em 0;
+b, strong {
   font-weight: 600;
-  padding-bottom: .3em;
-  font-size: 2em;
-  border-bottom: 1px solid #21262d;
 }
 
 img {
@@ -75,10 +80,6 @@ hr {
   margin: 24px 0;
   background-color: #30363d;
   border: 0;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 table {
@@ -147,6 +148,6 @@ ul, ol {
   padding-left: 2em;
 }
 
-.markdown-body table img {
+table img {
   background-color: transparent;
 }
