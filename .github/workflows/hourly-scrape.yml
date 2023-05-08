@@ -40,7 +40,7 @@ jobs:
 
           " > stories.md
 
-          sqlite3 hn.db stories.sql >> stories.md
+          sqlite3 hn.db < stories.sql >> stories.md
 
           echo "
 
