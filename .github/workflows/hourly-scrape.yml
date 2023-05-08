@@ -43,7 +43,7 @@ jobs:
         run: |
           echo "# HackerNews DIYgest
 
-          $(date "+Compiled on %Y-%m-%d at %H:%M:%S")
+          $(TZ=Asia/Bangkok date "+Compiled on %Y-%m-%d at %H:%M:%S")
 
           " > stories.md
 
