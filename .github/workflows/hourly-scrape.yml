@@ -57,6 +57,7 @@ jobs:
           server_port: 465
           secure: true
           ignore_cert: true
+          priority: high
 
       - name: Upload database artifact
         uses: actions/upload-artifact@v2
