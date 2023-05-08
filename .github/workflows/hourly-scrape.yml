@@ -34,7 +34,9 @@ jobs:
         run: |
           sqlite3 hn.db < stories.sql
 
-          echo "# HackerNews Diygest
+      - name: Compose email
+        run: |
+          echo "# HackerNews DIYgest
 
           $(date "+%Y-%m-%d")
 
@@ -44,9 +46,9 @@ jobs:
 
           echo "
 
-          Set up your own HackerNews Diygest... TODO" >> stories.md
+          Set up your own HackerNews DIYgest... TODO" >> stories.md
 
-      - name: Email Digest
+      - name: Email HackerNews DIYgest
         uses: dawidd6/action-send-mail@v3
         with:
           # Required mail server address if not connection_url:
@@ -56,15 +58,15 @@ jobs:
           # Optional whether this connection use TLS (default is true if server_port is 465)
           secure: true
           # Optional (recommended) mail server username:
-          username: jasonm23@gmail.com
+          username: ${{secrets.GMAIL_USER}}
           # Optional (recommended) mail server password:
           password: ${{secrets.GM_APPWRD}}
           # Required mail subject:
-          subject: HackerNews Diygest
+          subject: HackerNews DIYgest
           # Required recipients' addresses:
-          to: jasonm23@gmail.com
+          to: ${{secrets.GMAIL_USER}}
           # Required sender full name (address can be skipped):
-          from: Jason M <jasonm23@gmail.com>
+          from: HackerNews DIYgest  <${{secrets.GMAIL_USER}}>
           # Optional plain body:
           body: file://stories.md
           # Optional HTML body read from file:
@@ -72,10 +74,6 @@ jobs:
           ignore_cert: true
           # Optional converting Markdown to HTML (set content_type to text/html too):
           convert_markdown: true
-          # Optional attachments:
-          attachments: hn.db
-          # Optional priority: 'high', 'normal' (default) or 'low'
-          priority: low
 
       - name: Upload database artifact
         uses: actions/upload-artifact@v2
