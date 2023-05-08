@@ -18,7 +18,7 @@ jobs:
         run: |
            gh auth login --with-token <<<$ACCESS_TOKEN
            asset=$(gh api /repos/codefodder/hacker-news-digest/actions/artifacts --jq ".artifacts[0] .archive_download_url")
-           curl -L -o artifact.zip "$asset" \
+           curl -L -s -o artifact.zip "$asset" \
            -H "Accept: application/vnd.github.v3+json" \
            -H "Authorization: Bearer $ACCESS_TOKEN"
            unzip artifact.zip
