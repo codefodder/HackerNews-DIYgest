@@ -7,12 +7,8 @@ if [ ! $current_hour -eq 8 ]; then
 else
   echo "SEND_MAIL=true" >> "$GITHUB_ENV"
 
-  echo "
-
-  " > stories.md
-
-  sqlite3 hn.db < stories.sql >> stories.md
-  cat stories.md | markdown > stories.html
+  sqlite3 hn.db < stories.sql > stories.md
+  markdown < stories.md > stories.html
 
   echo "
   <!DOCTYPE html>
