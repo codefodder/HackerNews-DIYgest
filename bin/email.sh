@@ -32,7 +32,7 @@ EOF
 )
 
 # Send the email using the mail command
-echo "${BODY}" | mail \
+echo "${BODY}" | mailx \
     -a "Content-Type: multipart/alternative; boundary=${BOUNDARY}" \
     -a "From: ${SENDER}" \
     -a "To: ${RECIPIENT}" \
