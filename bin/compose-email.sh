@@ -26,10 +26,10 @@ cat <<HTML > digest.html
   </head>
   <body>
      <div class="hacker-news-diygest-content">
-       <h1>HackerNews DIYgest</h1>
+       <h1 class="hacker-news-diygest-title">HackerNews DIYgest</h1>
        <p class="delivery-date">${SEND_TIME}</p>
        ${STORIES}
-       <p class="footnote">View the [project](https://github.com/codefodder/HackerNews-DIYgest/) to set up your own HackerNews DIYgest.</p>
+       <p class="footnote">View the <a href="https://github.com/codefodder/HackerNews-DIYgest">project</a> to set up your own HackerNews DIYgest.</p>
      </div>
   </body>
 </html>

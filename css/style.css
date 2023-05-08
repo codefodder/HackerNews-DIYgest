@@ -1,25 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&family=Source+Sans+Pro:wght@200&display=swap');
-
 body {
   background-color: #0d1117;
   color: #c9d1d9;
   color-scheme: dark;
   margin: 0;
-  font-family: Helvetica;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
 div.hacker-news-diygest-content {
   background-color: #0d1117;
   color: #c9d1d9;
-  font: "Source Sans Pro", "Helvetica Neue", Helvetica;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  padding: 0.01em 3em;
+  border-radius: 1em;
 }
 
-h1 {
-  margin: .67em 0;
-  font-weight: 600;
+h1.hacker-news-diygest-title {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-weight: 900;
   padding-bottom: .3em;
   font-size: 4em;
-  font-family: "Roboto Slab", "Helvetica Neue", Helvetica;
+  line-height: 1;
+  letter-spacing: 0px;
 }
 
 p.delivery-date {
@@ -41,7 +43,7 @@ ul {
 
 a {
   background-color: transparent;
-  color: #58a6ff;
+  color: ##90b4d9;
   text-decoration: none;
   outline-width: 0;
 }
