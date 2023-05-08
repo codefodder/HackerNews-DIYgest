@@ -43,7 +43,7 @@ It's worth noting that YCombinator's internal posts will not have score, comment
 
 I store everything in a Sqlite database, in a stories table:
 
-``` sh
+```sql
 CREATE TABLE IF NOT EXISTS stories
 (id INTEGER PRIMARY KEY AUTOINCREMENT,
 title TEXT,
