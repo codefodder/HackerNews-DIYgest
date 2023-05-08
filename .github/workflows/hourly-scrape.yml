@@ -23,26 +23,33 @@ jobs:
            -H "Authorization: Bearer $ACCESS_TOKEN"
            unzip artifact.zip
 
-      - name: Install dependencies
+      - name: Install scrape dependencies
         run: |
           pip install -r requirements.txt
 
       - name: Scrape Hacker News
         run: bin/hn-hourly-scrape.py
 
-      - name: Inject dump
-        run: |
-          sqlite3 hn.db < dump.sql
-
       - name: Review database
         run: |
           sqlite3 hn.db < stories.sql
 
+      - name: Install markdown dependencies
+        run: |
+          sudo apt-get install build-essential cmake
+          git clone https://github.com/raphlinus/pulldown-cmark.git
+          cd pulldown-cmark
+          mkdir build
+          cd build
+          cmake ..
+          make
+          sudo make install
+          
       - name: Compose email
         run: |
           echo "# HackerNews DIYgest
 
-          $(date "+%Y-%m-%d")
+          $(date "+Compiled on %Y-%m-%d at %H:%M:%S")
 
           " > stories.md
 
@@ -51,6 +58,8 @@ jobs:
           echo "
 
           Set up your own HackerNews DIYgest... TODO" >> stories.md
+
+          cat stories.md | pulldown-cmark > stories.html
 
       - name: Email HackerNews DIYgest
         uses: dawidd6/action-send-mail@v3
@@ -70,14 +79,12 @@ jobs:
           # Required recipients' addresses:
           to: ${{secrets.GMAIL_USER}}
           # Required sender full name (address can be skipped):
-          from: HackerNews DIYgest  <${{secrets.GMAIL_USER}}>
+          from: HackerNews DIYgest
           # Optional plain body:
           body: file://stories.md
           # Optional HTML body read from file:
-          html_body: file://stories.md
+          html_body: file://stories.html
           ignore_cert: true
-          # Optional converting Markdown to HTML (set content_type to text/html too):
-          convert_markdown: true
 
       - name: Upload database artifact
         uses: actions/upload-artifact@v2
