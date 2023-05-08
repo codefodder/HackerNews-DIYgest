@@ -46,16 +46,16 @@ jobs:
         # if: ${{ env.SEND_MAIL == 'true' }}
         uses: dawidd6/action-send-mail@v3
         with:
+          subject: HackerNews DIYgest
+          from: HackerNews DIYgest
+          to: ${{secrets.GMAIL_USER}}
+          username: ${{secrets.GMAIL_USER}}
+          password: ${{secrets.GM_APPWRD}}
+          body: file://stories.md # plaintext
+          html_body: file://digest.html
           server_address: smtp.gmail.com
           server_port: 465
           secure: true
-          username: ${{secrets.GMAIL_USER}}
-          password: ${{secrets.GM_APPWRD}}
-          subject: HackerNews DIYgest
-          to: ${{secrets.GMAIL_USER}}
-          from: HackerNews DIYgest
-          body: file://stories.md
-          html_body: file://digest.html
           ignore_cert: true
 
       - name: Upload database artifact
