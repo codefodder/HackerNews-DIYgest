@@ -46,7 +46,7 @@ jobs:
         # if: ${{ env.SEND_MAIL == 'true' }}
         uses: dawidd6/action-send-mail@v3
         with:
-          subject: file://subject-line.txt
+          subject: ${{ env.SUBJECT_LINE }}
           from: HackerNews DIYgest
           to: ${{secrets.GMAIL_USER}}
           username: ${{secrets.GMAIL_USER}}
