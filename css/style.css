@@ -6,8 +6,6 @@ body {
 
 div.hacker-news-diygest-content {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
-  padding: 0.01em 3em;
-  border-radius: 1em;
 }
 
 h1.hacker-news-diygest-title {
@@ -34,8 +32,12 @@ p.footnote {
   font-size: 0.4em;
 }
 
+li {
+  text-indent: -2em;
+}
+
 ul > li > ul {
-  font-size: x-small;
+  font-size: 0.6em;
   padding-bottom: 0.3em;
 }
 
