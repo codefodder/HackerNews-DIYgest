@@ -4,13 +4,14 @@ body {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
-div[class$="hacker-news-diygest-content"] {
+div.hacker-news-diygest-content {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
   padding: 0.01em 3em;
   border-radius: 1em;
 }
 
-h1[class$="hacker-news-diygest-title"] {
+h1.hacker-news-diygest-title {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
   margin-top: 0.5em;
   margin-bottom: 0;
   font-weight: 900;
@@ -19,20 +20,16 @@ h1[class$="hacker-news-diygest-title"] {
   letter-spacing: -5px;
 }
 
-
-
-div[class$="hacker-news-diygest-content"] a,
-div[class$="hacker-news-diygest-content"] a:visited,
-div[class$="hacker-news-diygest-content"] a:hover {
+a, a:visited, a:hover {
   color:none;
   text-decoration:none;
 }
 
-p[class$=["delivery-date"] {
+p.delivery-date {
   font-size: 0.4em;
 }
 
-p[class$=["footnote"] {
+p.footnote {
   margin-top: 2em;
   font-size: 0.4em;
 }
