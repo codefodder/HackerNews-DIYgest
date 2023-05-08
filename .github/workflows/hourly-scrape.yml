@@ -41,57 +41,56 @@ jobs:
 
       - name: Compose email
         run: |
-          echo "# HackerNews DIYgest
+          current_hour=$(date +%H)
+          if [[ ! $current_hour -eq 8 ]]; then
+            echo "Skip Email"
+          else
+            echo "SEND_MAIL=true" >> "$GITHUB_ENV"
 
-          $(TZ=Asia/Bangkok date "+Compiled on %Y-%m-%d at %H:%M:%S (Bangkok time)")
+            echo "# HackerNews DIYgest
 
-          " > stories.md
+            $(TZ=Asia/Bangkok date "+Compiled on %Y-%m-%d at %H:%M:%S (Bangkok time)")
 
-          sqlite3 hn.db < stories.sql >> stories.md
+            " > stories.md
 
-          echo "
+            sqlite3 hn.db < stories.sql >> stories.md
 
-          Set up your own HackerNews DIYgest... TODO" >> stories.md
+            echo "
 
-          cat stories.md | markdown > stories.html
+            Set up your own HackerNews DIYgest... TODO" >> stories.md
 
-          cat <<EOF > digest.html
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset="UTF-8">
-              <style>
-                $(cat css/style.css)
-              </style>
-            </head>
-            <body>
-               $(cat stories.html)
-            </body>
-          </html>
-          EOF
+            cat stories.md | markdown > stories.html
+
+            cat <<EOF > digest.html
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <meta charset="UTF-8">
+                <style>
+                  $(cat css/style.css)
+                </style>
+              </head>
+              <body>
+                 $(cat stories.html)
+              </body>
+            </html>
+            EOF
+            echo "Prepared Email"
+          fi
 
       - name: Email HackerNews DIYgest
+        if: ${{ env.SEND_MAIL == 'true' }}
         uses: dawidd6/action-send-mail@v3
         with:
-          # Required mail server address if not connection_url:
           server_address: smtp.gmail.com
-          # Server port, default 25:
           server_port: 465
-          # Optional whether this connection use TLS (default is true if server_port is 465)
           secure: true
-          # Optional (recommended) mail server username:
           username: ${{secrets.GMAIL_USER}}
-          # Optional (recommended) mail server password:
           password: ${{secrets.GM_APPWRD}}
-          # Required mail subject:
           subject: HackerNews DIYgest
-          # Required recipients' addresses:
           to: ${{secrets.GMAIL_USER}}
-          # Required sender full name (address can be skipped):
           from: HackerNews DIYgest
-          # Optional plain body:
           body: file://stories.md
-          # Optional HTML body read from file:
           html_body: file://digest.html
           ignore_cert: true
 
