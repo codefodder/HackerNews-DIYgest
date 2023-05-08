@@ -13,6 +13,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Fetch database
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
            gh auth login --with-token <<<$ACCESS_TOKEN
            asset=$(gh api /repos/codefodder/hacker-news-digest/actions/artifacts --jq ".artifacts[0] .archive_download_url")
