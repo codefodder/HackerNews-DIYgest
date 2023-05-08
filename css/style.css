@@ -24,12 +24,16 @@ a, a:visited, a:hover {
 }
 
 p.delivery-date {
-  font-size: 0.4em;
+  font-size: 0.5em;
+}
+
+p.footnote a {
+  text-decoration: underline;
 }
 
 p.footnote {
   margin-top: 2em;
-  font-size: 0.4em;
+  font-size: 0.5em;
 }
 
 li {
@@ -38,7 +42,7 @@ li {
 
 ul > li > ul {
   font-size: 0.6em;
-  padding-bottom: 0.4em;
+  padding-bottom: 0.6em;
   padding-left: 0.5em;
 }
 
