@@ -1,12 +1,10 @@
 :root {
-  --text-color: #111;
-  --link-color: #222;
+  --hnd-link-color: #222222;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text-color: #eee;
-    --link-color: #ddd;
+    --hnd-link-color: #dddddd;
   }
 }
 
@@ -26,8 +24,8 @@ h1.hnd-title {
   letter-spacing: -5px;
 }
 
-a, a:visited, a:hover, a:active, .ii a[href] {
-  color: var(--link-color);
+a, a:visited, a:hover, a:active, .ii a[href], .ii a, [href] {
+  color: var(--hnd-link-color);
   text-decoration:none;
 }
 
