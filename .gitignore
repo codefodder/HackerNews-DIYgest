@@ -1,3 +1,4 @@
 *.db
 hn.html
 __pycache__
+.DS_Store
