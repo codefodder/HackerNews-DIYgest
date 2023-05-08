@@ -37,8 +37,7 @@ jobs:
 
           echo "# HackerNews Diygest\n\n$(date "+%Y-%m-%d")\n\n" > stories.md
 
-          sqlite3 hn.db "SELECT '- ['' || title || '](' || link || ')
-            - ' || score || ' [comments]('|| comment_url || ')'
+          sqlite3 hn.db "SELECT '- ['' || title || '](' || link || ')\n  - ' || score || ' [comments]('|| comment_url || ')'
           FROM stories
           ORDER BY CAST(REPLACE(score,' points','') AS INTEGER) DESC, CAST(SUBSTR(datetime, 1, 10) AS INTEGER) DESC" >> stories.md
 
