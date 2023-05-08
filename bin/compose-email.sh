@@ -25,11 +25,17 @@ cat <<HTML > digest.html
     </style>
   </head>
   <body>
-     <div class="hacker-news-diygest-content">
-       <h1 class="hacker-news-diygest-title">HackerNews DIYgest</h1>
-       <p class="delivery-date">${SEND_TIME}</p>
+     <div class="hnd-content">
+       <p class="hnd-top-3-subject-lines"
+       <h1
+        class="hnd-title"
+        style="font-family: 'Helvetica Neue', Helvetica, sans-serif;
+               margin-top: 0.5em; margin-bottom: 0;
+               font-weight: 900; font-size: 4em;
+               line-height: 1; letter-spacing: -5px;">HackerNews DIYgest</h1>
+       <p class="hnd-delivery-date">${SEND_TIME}</p>
        ${STORIES}
-       <p class="footnote"><a href="https://github.com/codefodder/HackerNews-DIYgest">View the project</a> to set up your own <a href="https://github.com/codefodder/HackerNews-DIYgest">HackerNews DIYgest.</a></p>
+       <p class="hnd-footnote"><a href="https://github.com/codefodder/HackerNews-DIYgest">View the project</a> to set up your own <a href="https://github.com/codefodder/HackerNews-DIYgest">HackerNews DIYgest.</a></p>
      </div>
   </body>
 </html>

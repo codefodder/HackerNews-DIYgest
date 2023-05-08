@@ -1,14 +1,22 @@
-body {
-  color-scheme: dark;
+:root {
+  --text-color: #111;
+  --link-color: #222;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #eee;
+    --link-color: #ddd;
+  }
+}
+
+div.hnd-content {
   margin: 0;
+  color-scheme: dark;
   font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
-div.hacker-news-diygest-content {
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-}
-
-h1.hacker-news-diygest-title {
+h1.hnd-title {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
   margin-top: 0.5em;
   margin-bottom: 0;
@@ -18,20 +26,20 @@ h1.hacker-news-diygest-title {
   letter-spacing: -5px;
 }
 
-a, a:visited, a:hover {
-  color:none;
+a, a:visited, a:hover, a:active {
+  color: var(--link-color);
   text-decoration:none;
 }
 
-p.delivery-date {
+p.hnd-delivery-date {
   font-size: 0.5em;
 }
 
-p.footnote a {
+p.hnd-footnote a {
   text-decoration: underline;
 }
 
-p.footnote {
+p.hnd-footnote {
   margin-top: 2em;
   font-size: 0.5em;
 }
