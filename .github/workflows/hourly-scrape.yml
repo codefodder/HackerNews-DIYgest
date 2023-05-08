@@ -27,10 +27,15 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Scrape Hacker News
-        run: python hn-hourly-scrape.py
+        run: bin/hn-hourly-scrape.py
 
       - name: Review database
         run: sqlite3 hn.db "SELECT datetime, title, link, score, comment_url, comment_count FROM stories ORDER BY datetime DESC;"
+
+      - name: Email digest
+        env:
+          GAP: ${{ secrets.GM_APPWRD }}
+        run: bin/email.sh
 
       - name: Upload database artifact
         uses: actions/upload-artifact@v2
