@@ -30,6 +30,10 @@ jobs:
       - name: Scrape Hacker News
         run: bin/hn-hourly-scrape.py
 
+      - name: Inject dump
+        run: |
+          sqlite3 hn.db < dump.sql
+
       - name: Review database
         run: |
           sqlite3 hn.db < stories.sql
