@@ -32,12 +32,19 @@ jobs:
 
       - name: Review database
         run: |
-          sqlite3 hn.db \
-          ".mode markdown" \
-          "SELECT datetime, title, link, score, comment_url, comment_count FROM stories ORDER BY datetime DESC;" \
-          > stories.md
+          echo "# HackerNews Diygest\n\n$(date "+%Y-%m-%d")\n\n" > stories.md
 
-      - name: Send mail
+          sqlite3 hn.db \
+          '
+          SELECT "- [" || title || "](" || link || ")\n  - " || score || " [comments]("|| comment_url || ")"
+
+          FROM stories
+          -- WHERE datetime(datetime, '+7 hours') BETWEEN date('now', '-1 day', '+7 hours') AND date('now', 'start of day', '+1 day', '+7 hours')
+          ORDER BY CAST(REPLACE(score,' points','') AS INTEGER) DESC, CAST(SUBSTR(datetime, 1, 10) AS INTEGER) DESC
+          -- LIMIT 30;
+          ' >> stories.md
+
+      - name: Email Digest
         uses: dawidd6/action-send-mail@v3
         with:
           # Required mail server address if not connection_url:
@@ -51,13 +58,13 @@ jobs:
           # Optional (recommended) mail server password:
           password: ${{secrets.GM_APPWRD}}
           # Required mail subject:
-          subject: Github Actions job result
+          subject: HackerNews Diygest
           # Required recipients' addresses:
           to: jasonm23@gmail.com
           # Required sender full name (address can be skipped):
           from: Jason M <jasonm23@gmail.com>
           # Optional plain body:
-          body: Build job of ${{github.repository}} completed successfully!
+          body: file://stories.md
           # Optional HTML body read from file:
           html_body: file://stories.md
           ignore_cert: true
