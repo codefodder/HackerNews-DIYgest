@@ -1,7 +1,7 @@
 -- Markdown formatted top 30 stories from the l
 
 SELECT "- [" || title || "](" || link || ")
-    - " || score || " [comments]("|| comment_url || ")"
+    - " || score || " // [comments]("|| comment_url || ")"
 FROM stories
 
 WHERE datetime(datetime, '+7 hours')
