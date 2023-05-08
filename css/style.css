@@ -6,6 +6,23 @@ body {
   font-family: Helvetica;
 }
 
+div.hacker-news-diygest-content {
+  background-color: #0d1117;
+  color: #c9d1d9;
+  font: Helvetica;
+  font-size: ;
+}
+
+p.delivery-date {
+  font-size: 0.4em;
+}
+
+p.footnote {
+  margin-top: 2em;
+  font-size: 0.4em;
+}
+
+
 ul > li > ul {
   font-size: x-small;
 }
@@ -26,15 +43,6 @@ a:active, a:hover {
 
 b, strong {
   font-weight: 600;
-}
-
-h1 + p {
-  font-size: x-small;
-}
-
-ul + p {
-  padding-top: 2em;
-  font-size: x-small;
 }
 
 h1 {

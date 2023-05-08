@@ -42,9 +42,8 @@ jobs:
       - name: Compose email
         run: bin/compose-email.sh
 
-
       - name: Email HackerNews DIYgest
-        if: ${{ env.SEND_MAIL == 'true' }}
+        # if: ${{ env.SEND_MAIL == 'true' }}
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com

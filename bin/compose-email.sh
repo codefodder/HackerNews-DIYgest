@@ -8,18 +8,10 @@ else
   echo "SEND_MAIL=true" >> "$GITHUB_ENV"
 
   echo "
-  # HackerNews DIYgest
-
-  $(TZ=Asia/Bangkok date "+Compiled on %Y-%m-%d at %H:%M:%S (Bangkok time)")
 
   " > stories.md
 
   sqlite3 hn.db < stories.sql >> stories.md
-
-  echo "
-
-  Set up your own HackerNews DIYgest... TODO" >> stories.md
-
   cat stories.md | markdown > stories.html
 
   echo "
@@ -32,7 +24,12 @@ else
       </style>
     </head>
     <body>
-       $(cat stories.html)
+       <div class=\"hacker-news-diygest-content\">
+         <h1>HackerNews DIYgest</h1>
+         <p class=\"delivery-date\">$(TZ=Asia/Bangkok date "+Compiled on %Y-%m-%d at %H:%M:%S (Bangkok time)")</p>
+         $(cat stories.html)
+         <p class=\"footnote\">Set up your own HackerNews DIYgest. TODO</p>
+       </div>
     </body>
   </html>" > digest.html
 
