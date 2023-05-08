@@ -34,15 +34,14 @@ jobs:
         run: |
           echo "# HackerNews Diygest\n\n$(date "+%Y-%m-%d")\n\n" > stories.md
 
-          sqlite3 hn.db \
-          '
-          SELECT "- [" || title || "](" || link || ")\n  - " || score || " [comments]("|| comment_url || ")"
-
+          sqlite3 hn.db 'SELECT "- [" || title || "](" || link || ")
+            - " || score || " [comments]("|| comment_url || ")"
           FROM stories
-          -- WHERE datetime(datetime, '+7 hours') BETWEEN date('now', '-1 day', '+7 hours') AND date('now', 'start of day', '+1 day', '+7 hours')
           ORDER BY CAST(REPLACE(score,' points','') AS INTEGER) DESC, CAST(SUBSTR(datetime, 1, 10) AS INTEGER) DESC
-          -- LIMIT 30;
           ' >> stories.md
+
+          # -- LIMIT 30;
+          # -- WHERE datetime(datetime, '+7 hours') BETWEEN date('now', '-1 day', '+7 hours') AND date('now', 'start of day', '+1 day', '+7 hours')
 
       - name: Email Digest
         uses: dawidd6/action-send-mail@v3
