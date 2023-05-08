@@ -24,7 +24,9 @@ jobs:
            unzip artifact.zip
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          apt-get update && apt-get install -y mailutils
 
       - name: Scrape Hacker News
         run: bin/hn-hourly-scrape.py
