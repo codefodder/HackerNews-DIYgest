@@ -9,9 +9,9 @@ Hacker News, but then I found those links don't even work after 5 months. Oh.
 
 So long, hndigest, it's been fun. *hits unsubscribe*
 
-# Better I DIY this myself.
+# Better I DIY this myself
 
-<img width="847" alt="Screenshot 2023-05-08 at 10 10 32 PM" src="https://user-images.githubusercontent.com/71587/236861200-b9099e90-3279-4464-9967-ff7851595efd.png">
+<img width="847" alt="hnd" src="https://user-images.githubusercontent.com/71587/236861882-4d3db219-e86d-4bc8-8792-5b6d08fc9d16.png">
 
 Built with:
 
