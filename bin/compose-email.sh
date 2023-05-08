@@ -11,7 +11,7 @@ fi
 SUBJECT_LINE=$(sqlite3 hn.db < top-3-titles.sql |
     PERL_UNICODE=SAL \
     perl -pe 'chomp; if (not eof) { s/$/ \x{2014} / }')
-echo "SUBJECT_LINE=${SUBJECT_LINE}" >> "$GITHUB_ENV"
+printf "SUBJECT_LINE=HackerNews DIYgest \x{2014} ${SUBJECT_LINE}" >> "$GITHUB_ENV"
 
 sqlite3 hn.db < stories.sql > stories.md
 markdown < stories.md > stories.html
