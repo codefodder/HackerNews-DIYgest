@@ -26,18 +26,47 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          sudo apt-get update && sudo apt-get install -y heirloom-mailx
 
       - name: Scrape Hacker News
         run: bin/hn-hourly-scrape.py
 
       - name: Review database
-        run: sqlite3 hn.db "SELECT datetime, title, link, score, comment_url, comment_count FROM stories ORDER BY datetime DESC;"
+        run: |
+          sqlite3 hn.db \
+          ".mode markdown" \
+          "SELECT datetime, title, link, score, comment_url, comment_count FROM stories ORDER BY datetime DESC;" \
+          > stories.md
 
-      - name: Email digest
-        env:
-          GAP: ${{ secrets.GM_APPWRD }}
-        run: bin/email.sh
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # Required mail server address if not connection_url:
+          server_address: smtp.gmail.com
+          # Server port, default 25:
+          server_port: 465
+          # Optional whether this connection use TLS (default is true if server_port is 465)
+          secure: true
+          # Optional (recommended) mail server username:
+          username: jasonm23@gmail.com
+          # Optional (recommended) mail server password:
+          password: ${{secrets.GM_APPWRD}}
+          # Required mail subject:
+          subject: Github Actions job result
+          # Required recipients' addresses:
+          to: jasonm23@gmail.com
+          # Required sender full name (address can be skipped):
+          from: Jason M <jasonm23@gmail.com>
+          # Optional plain body:
+          body: Build job of ${{github.repository}} completed successfully!
+          # Optional HTML body read from file:
+          html_body: file://stories.md
+          ignore_cert: true
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          convert_markdown: true
+          # Optional attachments:
+          attachments: hn.db
+          # Optional priority: 'high', 'normal' (default) or 'low'
+          priority: low
 
       - name: Upload database artifact
         uses: actions/upload-artifact@v2
