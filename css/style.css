@@ -1,10 +1,16 @@
 :root {
-  --hnd-link-color: #222222;
+  a, a:visited, a:hover, a:active, .ii a[href], .ii a, [href] {
+    color: #222222;
+    text-decoration:none;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --hnd-link-color: #dddddd;
+    a, a:visited, a:hover, a:active, .ii a[href], .ii a, [href] {
+      color: #EEEEEE;
+      text-decoration:none;
+    }
   }
 }
 
@@ -25,7 +31,7 @@ h1.hnd-title {
 }
 
 a, a:visited, a:hover, a:active, .ii a[href], .ii a, [href] {
-  color: var(--hnd-link-color);
+  color: #222222;
   text-decoration:none;
 }
 
