@@ -26,7 +26,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          sudo apt-get update && apt-get install -y mailutils
+          sudo apt-get update
+          sudo apt-get install -y mailutils
 
       - name: Scrape Hacker News
         run: bin/hn-hourly-scrape.py
