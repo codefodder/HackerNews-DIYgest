@@ -12,11 +12,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Download database artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: hackernews-database
-        continue-on-error: true
+      - name: Fetch database
+        run: |
+           gh auth login --with-token <<<$ACCESS_TOKEN
+           asset=$(gh api /repos/codefodder/hacker-news-digest/actions/artifacts --jq ".artifacts[0] .archive_download_url")
+           curl -L -o artifact.zip "$asset" \
+           -H "Accept: application/vnd.github.v3+json" \
+           -H "Authorization: Bearer $ACCESS_TOKEN"
+           unzip artifact.zip
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -25,10 +28,9 @@ jobs:
         run: python hn-hourly-scrape.py
 
       - name: Review database
-        run: sqlite3 hn.db "SELECT datetime, title, link FROM stories;"
+        run: sqlite3 hn.db "SELECT datetime, title, link, score, comment_url, comment_count FROM stories ORDER BY datetime DESC;"
 
       - name: Upload database artifact
-        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: hackernews-database
