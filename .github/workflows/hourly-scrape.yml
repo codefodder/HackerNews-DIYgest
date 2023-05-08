@@ -61,7 +61,7 @@ jobs:
 
             cat stories.md | markdown > stories.html
 
-            cat <<EOF > digest.html
+            cat <<-EOF > digest.html
             <!DOCTYPE html>
             <html>
               <head>
