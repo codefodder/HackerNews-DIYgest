@@ -26,7 +26,7 @@ h1.hnd-title {
   letter-spacing: -5px;
 }
 
-a, a:visited, a:hover, a:active {
+a, a:visited, a:hover, a:active, .ii a[href] {
   color: var(--link-color);
   text-decoration:none;
 }
