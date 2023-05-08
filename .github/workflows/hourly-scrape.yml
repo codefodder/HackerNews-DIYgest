@@ -36,15 +36,9 @@ jobs:
 
       - name: Install markdown dependencies
         run: |
-          sudo apt-get install build-essential cmake
-          git clone https://github.com/raphlinus/pulldown-cmark.git
-          cd pulldown-cmark
-          mkdir build
-          cd build
-          cmake ..
-          make
-          sudo make install
-          
+          sudo apt-get update
+          sudo apt-get install -y markdown
+
       - name: Compose email
         run: |
           echo "# HackerNews DIYgest
@@ -59,7 +53,7 @@ jobs:
 
           Set up your own HackerNews DIYgest... TODO" >> stories.md
 
-          cat stories.md | pulldown-cmark > stories.html
+          cat stories.md | markdown > stories.html
 
       - name: Email HackerNews DIYgest
         uses: dawidd6/action-send-mail@v3
