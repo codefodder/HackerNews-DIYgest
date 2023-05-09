@@ -64,7 +64,7 @@ jobs:
 
       - name: Skip if email sent today
         run: |
-          echo "## Sent last: $(cat sent,yml)" >>
+          echo "## Sent last: $(cat sent.yml)" >> "$GITHUB_STEP_SUMMARY"
           today="$(TZ=Asia/Bangkok date +%Y%m%d)"
           if [[ "${{ steps.read_yaml.outputs.sent }}" == "$today" ]]; then
             echo "SEND_MAIL=false" >> "$GITHUB_ENV"
