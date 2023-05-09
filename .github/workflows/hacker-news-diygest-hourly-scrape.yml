@@ -2,6 +2,15 @@ name: Hacker News DIYgest Hourly Scrape
 
 on:
   workflow_dispatch:
+    inputs:
+      send-email:
+        description: Send email on this run?
+        required: true
+        default: 'no'
+        type: choice
+        options:
+          - yes
+          - no
   schedule:
     - cron: "0 * * * *"
 
