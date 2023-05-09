@@ -7,7 +7,6 @@ on:
         description: Send email on this run?
         default: no
         type: choice
-        type: choice
         options:
           - yes
           - no
