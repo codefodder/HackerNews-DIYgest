@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       send-email:
-        description: Send email on this run?
+        description: Force send email on this run?
         default: no
         type: choice
         options:
@@ -70,7 +70,7 @@ jobs:
 
       - name: Email HackerNews DIYgest
         id: sending_email
-        if: ${{ env.SEND_MAIL == true || inputs.send-email }}
+        if: ${{ env.SEND_MAIL == true || inputs.send-email == 'yes' }}
         uses: dawidd6/action-send-mail@v3
         with:
           subject: ${{ env.SUBJECT_LINE }}
@@ -87,7 +87,7 @@ jobs:
           priority: high
           
       - name: Confirm sent
-        if: ${{ steps.sending_email.outputs.success }}
+        if: ${{ steps.sending_email.outputs.success == true }}
         run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
           echo "sent: $today" > sent.yml
