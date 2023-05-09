@@ -32,7 +32,7 @@ jobs:
 
       - name: Review database
         run: |
-          sqlite3 hn.db < stories.sql
+          sqlite3 hn.db < stories.sql >> $GITHUB_STEP_SUMMARY
 
       - name: Install markdown dependencies
         run: |
