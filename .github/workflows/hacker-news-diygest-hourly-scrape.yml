@@ -24,14 +24,15 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
            # create an empty sent file...
-           touch sent.yml
+           echo "sent: never" > sent.yml
+
            # fetch the database and yml from artifact.zip
            gh auth login --with-token <<<$ACCESS_TOKEN
            asset=$(gh api /repos/codefodder/hacker-news-digest/actions/artifacts --jq ".artifacts[0] .archive_download_url")
            curl -L -s -o artifact.zip "$asset" \
            -H "Accept: application/vnd.github.v3+json" \
            -H "Authorization: Bearer $ACCESS_TOKEN"
-           unzip artifact.zip
+           unzip -o artifact.zip
 
       - name: Install scrape dependencies
         run: |
@@ -52,10 +53,12 @@ jobs:
       - name: Compose email
         run: bin/compose-email.sh
 
-      - name: Skip send if email sent today
+      - name: Read sent.yml
         uses: actions-tools/yaml-outputs@v2
         with:
           file-path: 'sent.yml'
+
+      - name: Skip if email sent today
       - run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
           if [ "${{ steps.yaml.outputs.sent }}" -eq $today ]; then
