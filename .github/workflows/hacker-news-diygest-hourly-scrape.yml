@@ -5,11 +5,11 @@ on:
     inputs:
       send-email:
         description: Force send email on this run?
-        default: false
+        default: "no thanks"
         type: choice
         options:
-          - true
-          - false
+          - "force"
+          - "no thanks"
 
   schedule:
     - cron: "0 * * * *"
@@ -71,7 +71,8 @@ jobs:
 
       - name: Email HackerNews DIYgest
         id: sending_email
-        if: ${{ env.SEND_MAIL == 'true' || inputs.send-email == true }}
+        if: |
+          ${{ env.SEND_MAIL == 'true' || inputs.send-email == 'force' }}
         uses: dawidd6/action-send-mail@v3
         with:
           subject: ${{ env.SUBJECT_LINE }}
