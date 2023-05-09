@@ -51,7 +51,6 @@ jobs:
 
       - name: Skip send if email sent today
         uses: actions-tools/yaml-outputs@v2
-        id:
         with:
           file-path: 'sent.yml'
       - run: |
@@ -61,6 +60,7 @@ jobs:
           fi
 
       - name: Email HackerNews DIYgest
+        id: sending_email
         if: ${{ env.SEND_MAIL == true || inputs.send-email }}
         uses: dawidd6/action-send-mail@v3
         with:
@@ -76,6 +76,9 @@ jobs:
           secure: true
           ignore_cert: true
           priority: high
+          
+      - name: Confirm sent
+        if: ${{ steps.sending_email.outputs.success }}
         run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
           echo "sent: $today" > sent.yml
@@ -87,9 +90,3 @@ jobs:
           path: |
             hn.db
             sent.yml
-
-      - name: Upload database artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: hackernews-database
-          path: hn.db
