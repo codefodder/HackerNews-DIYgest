@@ -6,11 +6,8 @@ on:
       send-email:
         description: Send email on this run?
         required: true
-        default: 'no'
-        type: choice
-        options:
-          - yes
-          - no
+        default: false
+        type: boolean
   schedule:
     - cron: "0 * * * *"
 
@@ -52,7 +49,7 @@ jobs:
         run: bin/compose-email.sh
 
       - name: Email HackerNews DIYgest
-        if: ${{ env.SEND_MAIL == 'true' }}
+        if: ${{ env.SEND_MAIL == 'true' || inputs.send-email }}
         uses: dawidd6/action-send-mail@v3
         with:
           subject: ${{ env.SUBJECT_LINE }}
