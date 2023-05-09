@@ -63,7 +63,7 @@ jobs:
           file-path: 'sent.yml'
 
       - name: Skip if email sent today
-      - run: |
+        run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
           if [ "${{ steps.read_yaml.outputs.sent }}" -eq $today ]; then
             echo "SEND_MAIL=false" >> "$GITHUB_ENV"
