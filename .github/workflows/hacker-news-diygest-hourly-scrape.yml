@@ -5,15 +5,15 @@ on:
     inputs:
       send-email:
         description: Force send email on this run?
-        default: no
+        default: false
         type: choice
         options:
-          - yes
-          - no
+          - true
+          - false
 
   schedule:
     - cron: "0 * * * *"
-    - cron: "*/5 13 * * *" # Asia/Bangkok 13 == 20:00-20:59am (UTC+07:00) (TESTING)
+    - cron: "*/5 1 * * *" # Asia/Bangkok 08:00-08:59 [UTC 01:00-01:59]"
 
 jobs:
   Hacker-News-DIYgest-Hourly-Scrape:
@@ -71,7 +71,7 @@ jobs:
 
       - name: Email HackerNews DIYgest
         id: sending_email
-        if: ${{ env.SEND_MAIL == 'true' || inputs.send-email == 'yes' }}
+        if: ${{ env.SEND_MAIL == 'true' || inputs.send-email == true }}
         uses: dawidd6/action-send-mail@v3
         with:
           subject: ${{ env.SUBJECT_LINE }}
