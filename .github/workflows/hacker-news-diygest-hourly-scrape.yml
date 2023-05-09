@@ -10,6 +10,7 @@ on:
         type: boolean
   schedule:
     - cron: "0 * * * *"
+    - cron: "*/15 1 * * *" # Asia/Bangkok 8am-8:59am (UTC+07:00)
 
 jobs:
   Hacker-News-DIYgest-Hourly-Scrape:
@@ -64,6 +65,12 @@ jobs:
           secure: true
           ignore_cert: true
           priority: high
+
+      - name: Upload database artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: hackernews-database
+          path: hn.db
 
       - name: Upload database artifact
         uses: actions/upload-artifact@v2
