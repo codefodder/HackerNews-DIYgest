@@ -57,6 +57,7 @@ jobs:
         run: bin/compose-email.sh
 
       - name: Read sent.yml
+        id: read_yaml
         uses: actions-tools/yaml-outputs@v2
         with:
           file-path: 'sent.yml'
@@ -64,7 +65,7 @@ jobs:
       - name: Skip if email sent today
       - run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
-          if [ "${{ steps.yaml.outputs.sent }}" -eq $today ]; then
+          if [ "${{ steps.read_yaml.outputs.sent }}" -eq $today ]; then
             echo "SEND_MAIL=false" >> "$GITHUB_ENV"
           fi
 
