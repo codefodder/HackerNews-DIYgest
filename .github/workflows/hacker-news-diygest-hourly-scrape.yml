@@ -19,10 +19,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Fetch database
+      - name: Fetch database and sent.yml
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
+           # create an empty sent file...
+           touch sent.yml
+           # fetch the database and yml from artifact.zip
            gh auth login --with-token <<<$ACCESS_TOKEN
            asset=$(gh api /repos/codefodder/hacker-news-digest/actions/artifacts --jq ".artifacts[0] .archive_download_url")
            curl -L -s -o artifact.zip "$asset" \
