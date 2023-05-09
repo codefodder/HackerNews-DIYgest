@@ -10,7 +10,7 @@ on:
         type: boolean
   schedule:
     - cron: "0 * * * *"
-    - cron: "*/15 1 * * *" # Asia/Bangkok 8am-8:59am (UTC+07:00)
+    - cron: "*/15 9 * * *" # Asia/Bangkok 4pm-4:59pm (UTC+07:00) (TESTING)
 
 jobs:
   Hacker-News-DIYgest-Hourly-Scrape:
@@ -49,8 +49,19 @@ jobs:
       - name: Compose email
         run: bin/compose-email.sh
 
+      - name: Skip send if email sent today
+        uses: actions-tools/yaml-outputs@v2
+        id:
+        with:
+          file-path: 'sent.yml'
+      - run: |
+          today=$(TZ=Asia/Bangkok date +%Y%m%d)
+          if [ "${{ steps.yaml.outputs.sent }}" -eq $today ]; then
+            echo "SEND_MAIL=false" >> "$GITHUB_ENV"
+          fi
+
       - name: Email HackerNews DIYgest
-        if: ${{ env.SEND_MAIL == 'true' || inputs.send-email }}
+        if: ${{ env.SEND_MAIL == true || inputs.send-email }}
         uses: dawidd6/action-send-mail@v3
         with:
           subject: ${{ env.SUBJECT_LINE }}
@@ -65,12 +76,17 @@ jobs:
           secure: true
           ignore_cert: true
           priority: high
+        run: |
+          today=$(TZ=Asia/Bangkok date +%Y%m%d)
+          echo "sent: $today" > sent.yml
 
       - name: Upload database artifact
         uses: actions/upload-artifact@v2
         with:
           name: hackernews-database
-          path: hn.db
+          path:
+            - hn.db
+            - sent.yml
 
       - name: Upload database artifact
         uses: actions/upload-artifact@v2
