@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 current_hour=$(TZ=Asia/Bangkok date +%H)
+echo "Current Hour (${current_hour})" >> "$GITHUB_STEP_SUMMARY"
 
 if [[ $current_hour != 17 ]]; then
   echo "Skip Email (${current_hour}) != (17)" >> "$GITHUB_STEP_SUMMARY"
