@@ -84,9 +84,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: hackernews-database
-          path:
-            - hn.db
-            - sent.yml
+          path: |
+            hn.db
+            sent.yml
 
       - name: Upload database artifact
         uses: actions/upload-artifact@v2
