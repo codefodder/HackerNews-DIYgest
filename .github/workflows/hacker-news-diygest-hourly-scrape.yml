@@ -30,7 +30,7 @@ jobs:
            echo "sent: never" > sent.yml
 
            # fetch the database and yml from artifact.zip
-           gh auth login --with-token <<<$ACCESS_TOKEN
+           gh auth login --with-token <<<"$ACCESS_TOKEN"
            asset=$(gh api /repos/codefodder/hacker-news-digest/actions/artifacts --jq ".artifacts[0] .archive_download_url")
            curl -L -s -o artifact.zip "$asset" \
            -H "Accept: application/vnd.github.v3+json" \
@@ -46,7 +46,7 @@ jobs:
 
       - name: Review database
         run: |
-          sqlite3 hn.db < stories.sql >> $GITHUB_STEP_SUMMARY
+          sqlite3 hn.db < stories.sql >> "$GITHUB_STEP_SUMMARY"
 
       - name: Install markdown dependencies
         run: |
@@ -64,8 +64,8 @@ jobs:
 
       - name: Skip if email sent today
         run: |
-          today=$(TZ=Asia/Bangkok date +%Y%m%d)
-          if [ "${{ steps.read_yaml.outputs.sent }}" -eq $today ]; then
+          today="$(TZ=Asia/Bangkok date +%Y%m%d)"
+          if [[ "${{ steps.read_yaml.outputs.sent }}" == "$today" ]]; then
             echo "SEND_MAIL=false" >> "$GITHUB_ENV"
           fi
 
@@ -88,7 +88,7 @@ jobs:
           priority: high
           
       - name: Confirm sent
-        if: ${{ steps.sending_email.outputs.success == true }}
+        if: ${{ success() }}
         run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
           echo "sent: $today" > sent.yml
