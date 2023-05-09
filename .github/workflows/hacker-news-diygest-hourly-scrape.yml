@@ -5,8 +5,13 @@ on:
     inputs:
       send-email:
         description: Send email on this run?
-        default: false
-        type: boolean
+        default: no
+        type: choice
+        type: choice
+        options:
+          - yes
+          - no
+
   schedule:
     - cron: "0 * * * *"
     - cron: "*/15 9 * * *" # Asia/Bangkok 4pm-4:59pm (UTC+07:00) (TESTING)
