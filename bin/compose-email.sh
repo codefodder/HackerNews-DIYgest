@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-current_hour=$(date +%H)
+current_hour=$(TZ=Asia/Bangkok date +%H)
 
 if [ ! $current_hour -eq 8 ]; then
   echo "Skip Email"
