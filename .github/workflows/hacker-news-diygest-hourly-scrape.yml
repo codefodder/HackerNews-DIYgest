@@ -13,7 +13,7 @@ on:
 
   schedule:
     - cron: "0 * * * *"
-    - cron: "*/15 1 * * *" # Asia/Bangkok 1 == 8am-8:59am (UTC+07:00) (TESTING)
+    - cron: "*/15 11 * * *" # Asia/Bangkok 11 == 18:00-18:59am (UTC+07:00) (TESTING)
 
 jobs:
   Hacker-News-DIYgest-Hourly-Scrape:
@@ -59,13 +59,13 @@ jobs:
         with:
           file-path: 'sent.yml'
 
-      - name: Skip if email sent today
-        run: |
-          echo "## Sent last: $(cat sent.yml)" >> "$GITHUB_STEP_SUMMARY"
-          today="$(TZ=Asia/Bangkok date +%Y%m%d)"
-          if [[ "${{ steps.read_yaml.outputs.sent }}" == "$today" ]]; then
-            echo "SEND_MAIL=false" >> "$GITHUB_ENV"
-          fi
+      # - name: Skip if email sent today
+      #   run: |
+      #     echo "## Sent last: $(cat sent.yml)" >> "$GITHUB_STEP_SUMMARY"
+      #     today="$(TZ=Asia/Bangkok date +%Y%m%d)"
+      #     if [[ "${{ steps.read_yaml.outputs.sent }}" == "$today" ]]; then
+      #       echo "SEND_MAIL=false" >> "$GITHUB_ENV"
+      #     fi
 
       - name: Email HackerNews DIYgest
         id: sending_email

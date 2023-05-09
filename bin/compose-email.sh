@@ -3,7 +3,7 @@
 current_hour=$(TZ=Asia/Bangkok date +%H)
 echo "Current Hour (${current_hour})" >> "$GITHUB_STEP_SUMMARY"
 
-if [ $current_hour != 8 ]; then
+if [ $current_hour != 18 ]; then
   echo "Skip Email (${current_hour}) != (18)" >> "$GITHUB_STEP_SUMMARY"
 else
   echo "SEND_MAIL=true" >> "$GITHUB_ENV"
