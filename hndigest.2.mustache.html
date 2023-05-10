@@ -11,21 +11,33 @@
                            margin-top: 0.5em; margin-bottom: 0;
                            font-weight: 900; font-size: 4em;
                            line-height: 1; letter-spacing: -5px;">HackerNews DI<span style="letter-spacing:-12px">Y</span>gest</h1>
-                <p>Top 30 Stories of {{prettydate}}<br>
-                    Generated at {{exactdatetime}}</p>
+                <p style="color: #0a0a0a; font-size: 13px; margin:0; padding:10px 0 0 20px;">Top 30 Stories of {{prettydate}}</p>
+                <p style="color: #0a0a0a; font-size: 11px; margin:0; padding:0 0 10px 20px;">Generated at {{exactdatetime}}</p>
                 {{#stories}}
-                <p>
-                    <a href="{{link}}" style=
-                             "color: #1667D9 ;font-weight:normal;text-align:left;line-height:1.3;text-decoration:none;font-size:14px;Margin:0 0 3px;padding:0">
-                        {{title}}</a>
-                    <div style="padding-top:3px;font-size:10px">
-                        {{score}} |
-                        <a href="{{comment_url}}" style=
-                                 "color:#0a0a0a;font-weight:normal;text-align:left;text-decoration:none">comments</a>
-                    </div>
-                </p>
-                {{/stories}}
-                <p><a href="https://github.com/codefodder/HackerNews-DIYgest">View the project</a> to set up your own <a href="https://github.com/codefodder/HackerNews-DIYgest">HackerNews DIYgest.</a></p>
+                <table border="0">
+                    <tr>
+                        <td style="color:#DDDDDD; width: 30px; text-align: right; font-size: 13px">
+                            {{number}}
+                        </td>
+                        <td>
+                            <a href="{{link}}" style=
+                                     "color: #1667D9 ;font-weight:normal;text-align:left;line-height:1.3;text-decoration:none;font-size:14px;Margin:0 0 3px;padding:0">
+                                {{title}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <div style="padding-top:3px;font-size:10px">
+                                {{score}} |
+                                <a href="{{comment_url}}" style=
+                                         "color:#0a0a0a;font-weight:normal;text-align:left;text-decoration:none">comments</a>
+                            </div>
+                        </td></tr>
+                </table>
+            </p>
+            {{/stories}}
+            <p style='font-size: 12px'><a style="color: #0a0a0a" href="https://github.com/codefodder/HackerNews-DIYgest">View the project</a> to set up your own <a style="color: #0a0a0a" href="https://github.com/codefodder/HackerNews-DIYgest">HackerNews DIYgest.</a></p>
         </div>
     </body>
 </html>
