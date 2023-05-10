@@ -94,9 +94,16 @@ jobs:
 
       - name: Debug SEND_MAIL
         run: |
-          echo "- Force Email: ${{ inputs.send-email  }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- env.SEND_MAIL: ${{ env.SEND_MAIL }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- env.SEND_MAIL == 'true': ${{ env.SEND_MAIL == 'true' }}" >> "$GITHUB_STEP_SUMMARY"
+          cat <<DEBUG >> "$GITHUB_STEP_SUMMARY"
+
+          # Debug SEND_MAIL
+
+          - inputs.send-email: ${{ inputs.send-email  }}
+          - env.SEND_MAIL: ${{ env.SEND_MAIL }}
+          - env.SEND_MAIL == 'true': ${{ env.SEND_MAIL == 'true' }}
+          - env.SEND_MAIL == 'true" || inputs.send-email == 'force': ${{ env.SEND_MAIL == 'true' || inputs.send-email == 'force' }}
+
+          DEBUG
 
       - name: Email HackerNews DIYgest
         id: sending_email
