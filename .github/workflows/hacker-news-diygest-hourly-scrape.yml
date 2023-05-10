@@ -71,9 +71,9 @@ jobs:
           today="$(TZ=Asia/Bangkok date +%Y%m%d)"
           last_sent="${{ steps.read_yaml.outputs.sent }}"
           if [[ "$today" != "$last_sent" && "$TARGET_HOUR" == "$hour_now" ]]; then
-            SEND_MAIL=true
+            SEND_MAIL="true"
           else
-            SEND_MAIL=false
+            SEND_MAIL="false"
           fi
 
           echo "SEND_MAIL=$SEND_MAIL" >> "$GITHUB_ENV"
