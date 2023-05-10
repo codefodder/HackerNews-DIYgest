@@ -48,6 +48,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y markdown
 
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Install mustache-cli
+        run: go install github.com/cbroglie/mustache/cmd/mustache@latest
+
       - name: Scrape
         run: bin/hn-hourly-scrape.py
 
@@ -61,7 +69,7 @@ jobs:
       - name: Compose mustache email
         run: |
           echo "{
-            \"stories\":$(sqlite34  hn.db < stories.fields.sql),
+            \"stories\":$(sqlite3 hn.db < stories.fields.sql),
             \"prettydate\":\"$(TZ=Asia/Bangkok date "+%A, %d %b %Y")\",
             \"exactdatetime\":\"$(TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M:%S")\"
           }" \
