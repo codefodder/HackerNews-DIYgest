@@ -2,7 +2,8 @@ name: Hacker News DIYgest Hourly Scrape
 
 env:
   TARGET_HOUR: "08" # Bangkok Time
-  TARGET_HOUR_UTC: 1 # for cron
+  TARGET_HOUR_UTC: 1
+  # must insert manually in cron below.
 
 on:
   workflow_dispatch:
@@ -66,6 +67,7 @@ jobs:
       - name: Decide if email is sent
         run: |
           hour_now=$(TZ=Asia/Bangkok date +%H)
+          hour_now_utc=$(date +%H)
           today="$(TZ=Asia/Bangkok date +%Y%m%d)"
           last_sent="${{ steps.read_yaml.outputs.sent }}"
           if [[ "$today" != "$last_sent" && "$TARGET_HOUR" == "$hour_now" ]]; then
@@ -85,6 +87,7 @@ jobs:
           - Target Hour: ${TARGET_HOUR}
           - Target Hour (UTC): ${TARGET_HOUR_UTC}
           - Current Hour: [${hour_now}]
+          - Current Hour (UTC): [${hour_now_utc}]
           - Force Email: ${{ inputs.send-email  }}
           - SEND_MAIL: ${{ env.SEND_MAIL }}
 
