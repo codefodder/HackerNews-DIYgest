@@ -73,7 +73,7 @@ jobs:
         with:
           file-path: 'sent.yml'
 
-      - name: Decide if email is sent
+      - name: Should we send the mail now
         run: |
           hour_now=$(TZ=Asia/Bangkok date +%H)
           hour_now_utc=$(date +%H)
