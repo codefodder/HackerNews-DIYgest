@@ -123,22 +123,6 @@ jobs:
           ignore_cert: true
           priority: high
 
-      - name: Test HTML Emails
-        id: test_html_email
-        uses: dawidd6/action-send-mail@v3
-        with:
-          subject: ${{ env.SUBJECT_LINE }}
-          from: HackerNews DIYgest
-          to: ${{secrets.GMAIL_USER}}
-          username: ${{secrets.GMAIL_USER}}
-          password: ${{secrets.GM_APPWRD}}
-          body: file://stories.md # plaintext
-          html_body: file://hh.html
-          server_address: smtp.gmail.com
-          server_port: 465
-          secure: true
-          ignore_cert: true
-          priority: high
 
       - name: Confirm sent
         if: ${{ success() }}
