@@ -5,7 +5,10 @@
   <meta content="width=device-width" name="viewport">
   <base target="_parent">
   <style data-premailer="ignore">
-  p, a, span, h1, h2, h3, h4, h5, h6 { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; }
+  p, a, span, h1, h2, h3, h4, h5, h6 {
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;
+      margin: 0;
+   }
   </style>
   <style>
          #kl,body {
@@ -25,7 +28,6 @@
              font-weight: 400;
              text-align: left;
              font-size: 16px;
-             line-height: 1.3
          }
 
          .za {
@@ -37,76 +39,12 @@
              line-height: 100%!important
          }
 
-         img {
-             outline: 0;
-             text-decoration: none;
-             -ms-interpolation-mode: bicubic;
-             width: auto;
-             max-width: 100%;
-             clear: both;
-             display: block
-         }
-
          a:active,a:hover {
              color: #147dc2
          }
 
          a:visited,h1 a:visited,h2 a:visited,h3 a:visited,h4 a:visited,h5 a:visited,h6 a:visited {
              color: #2199e8
-         }
-
-         table.pq table tr td a:visited,table.pq.ed table tr td a:visited,table.pq.ed:active table tr td a,table.pq.ed:hover table tr td a,table.pq.gp table td a:visited,table.pq.gp:active table td a,table.pq.gp:hover table td a,table.pq.mr table tr td a:visited,table.pq.mr:active table tr td a,table.pq.mr:hover table tr td a,table.pq.xm table tr td a:visited,table.pq.xm:active table tr td a,table.pq.xm:hover table tr td a,table.pq:active table tr td a,table.pq:hover table tr td a {
-             color: #fefefe
-         }
-
-         table.pq:active table td,table.pq:hover table td,table.pq:visited table td {
-             background: #147dc2;
-             color: #fefefe
-         }
-
-         table.pq:active table a,table.pq:hover table a,table.pq:visited table a {
-             border: 0 solid #147dc2
-         }
-
-         table.pq.gp:hover table td {
-             background: #919191;
-             color: #fefefe
-         }
-
-         table.pq.gp:hover table a {
-             border: 0 solid #919191
-         }
-
-         table.pq.qo:hover table td {
-             background: #23bf5d
-         }
-
-         table.pq.qo:hover table a {
-             border: 0 solid #23bf5d
-         }
-
-         table.pq.wr:hover table td {
-             background: #e23317
-         }
-
-         table.pq.wr:hover table a {
-             border: 0 solid #e23317
-         }
-
-         table.pq.ny:hover table td {
-             background: #cc8b00
-         }
-
-         table.pq.ny:hover table a {
-             border: 0 solid #cc8b00
-         }
-
-         .lo:hover {
-             box-shadow: 0 0 6px 1px rgba(33,153,232,.5)
-         }
-
-         .lo:focus {
-             box-shadow: 0 0 6px 1px rgba(33,153,232,.5)
          }
 
          body.br p {
@@ -473,7 +411,7 @@
                           <td valign="top" style=
                           "word-wrap:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse !important;color:#0a0a0a;font-weight:normal;line-height:1.3;font-size:16px;Margin:0;padding:0;border:none"
                           align="left">
-                            <h1>HackerNews DIYgest</h1>
+                              <h1 style="letter-spacing:-2px">HackerNews DI<span style="letter-spacing:-6px">Y</span>gest</h1>
                           </td>
                         </tr>
                       </tbody>
@@ -483,12 +421,12 @@
                       <tbody>
                         <tr style="vertical-align:top;padding:0" align="left">
                           <th class="mrdzn mbrs" style=
-                          "width:574px;color:#0a0a0a;font-weight:normal;line-height:1.3;font-size:16px;Margin:0 auto;padding:0 6px" align="left">
+                          "width:574px;color:#0a0a0a;font-weight:normal;font-size:16px;Margin:0 auto;padding:0" align="left">
                             <table style="border-spacing:0;border-collapse:collapse;vertical-align:top;text-align:left;width:100%;padding:0">
                               <tr style="vertical-align:top;padding:0" align="left">
-                                <th style="color:#0a0a0a;font-weight:normal;line-height:1.3;font-size:12px;Margin:0;padding:0" align="left">
-                                  <p class="zqa" style="color:#0a0a0a;font-weight:normal;line-height:1.6;font-size:12px;Margin:0 0 10px;padding:0" align="left">
-                                      Top 30 Stories of {{prettydate}}
+                                <th style="color:#0a0a0a;font-weight:normal;font-size:12px;Margin:0;padding:0" align="left">
+                                  <p class="zqa" style="color:#0a0a0a;font-weight:normal;font-size:11px;margin:0;margin-bottom:10px;;padding:0 0 0 14px" align="left">
+                                      Top 30 Stories of {{prettydate}}<br>
                                       <small>Generated at {{exactdatetime}}</small>
                                   </p>
                                 </th>
@@ -498,15 +436,6 @@
                               </tr>
                             </table>
                           </th>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table style="border-spacing:0;border-collapse:collapse;vertical-align:top;text-align:left;width:100%;padding:0">
-                      <tbody>
-                        <tr style="vertical-align:top;padding:0" align="left">
-                          <td height="20px" style=
-                          "font-size:20px;line-height:20px;word-wrap:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse !important;mso-line-height-rule:exactly;color:#0a0a0a;font-weight:normal;Margin:0;padding:0;border:none"
-                          align="left" valign="top">&nbsp;</td>
                         </tr>
                       </tbody>
                     </table>
@@ -521,7 +450,7 @@
                                 <th style="color:#0a0a0a;font-weight:normal;line-height:1.3;font-size:16px;Margin:0;padding:0" align="left">
                                   {{#stories}}
                                   <table style=
-                                  "margin-bottom:18px;border-spacing:0;border-collapse:collapse;vertical-align:top;text-align:left;width:100%;position:relative;display:table;padding:0">
+                                  "margin-bottom: 8px;border-spacing:0;border-collapse:collapse;vertical-align:top;text-align:left;width:100%;position:relative;display:table;padding:0">
                                     <tbody>
                                       <tr style="vertical-align:top;padding:0" align="left">
                                         <th class="ggped mrdzn mbrs" style=
@@ -541,14 +470,14 @@
                                         "left">
                                           <table style="border-spacing:0;border-collapse:collapse;vertical-align:top;text-align:left;width:100%;padding:0">
                                             <tr style="vertical-align:top;padding:0" align="left">
-                                              <th style="color:#0a0a0a;font-weight:normal;line-height:1.3;font-size:16px;Margin:0;padding:0" align="left">
+                                              <th style="color:#0a0a0a;font-weight:normal;line-height:1.3;Margin:0;padding:0" align="left">
                                                 <a href="{{link}}" style=
-                                                "color: #1667D9 ;font-weight:normal;text-align:left;line-height:1.3;text-decoration:none;font-size:16px;Margin:0 0 3px;padding:0">
+                                                "color: #1667D9 ;font-weight:normal;text-align:left;line-height:1.3;text-decoration:none;font-size:14px;Margin:0 0 3px;padding:0">
                                                 {{title}}</a>
-                                                <div style="padding-top:3px;font-size:smaller">
+                                                <div style="padding-top:3px;font-size:10px">
                                                   {{score}} |
                                                   <a href="{{comment_url}}" style=
-                                                  "color:#0a0a0a;font-weight:normal;text-align:left;line-height:1.3;text-decoration:none;Margin:0;padding:0">comments</a>
+                                                  "color:#0a0a0a;font-weight:normal;text-align:left;text-decoration:none">comments</a>
                                                 </div>
                                               </th>
                                             </tr>
