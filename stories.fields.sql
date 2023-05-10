@@ -1,7 +1,6 @@
--- Markdown formatted top 30 stories of today
+-- formatted top 30 stories of today
 
-SELECT "- [" || title || "](" || link || ")
-    - " || score || " // [comments]("|| comment_url || ")"
+SELECT title, link, score, comment_url
 FROM stories
 
 WHERE datetime(datetime, '+7 hours')
