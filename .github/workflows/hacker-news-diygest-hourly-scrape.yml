@@ -82,7 +82,7 @@ jobs:
           - Target Hour (UTC): ${TARGET_HOUR_UTC}
           - Current Hour: [${hour_now}]
           - Force Email: ${{ inputs.send-email  }}
-          - SEND_MAIL: $SEND_MAIL
+          - SEND_MAIL: ${{ env.SEND_MAIL }}
 
           DEBUG_EMAIL_SCHEDULE
 
