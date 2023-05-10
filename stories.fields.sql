@@ -12,12 +12,12 @@ SELECT
     comment_url
 FROM stories
 
-WHERE datetime(datetime, '+7 hours')
+WHERE datetime
 
 BETWEEN
-date('now', '-1 day', '+7 hours')
+date('now', '-1 day')
 AND
-date('now', 'start of day', '+7 hours')
+date('now', 'start of day')
 
 ORDER BY number ASC
   -- CAST(REPLACE(score,' points','') AS INTEGER) DESC,
