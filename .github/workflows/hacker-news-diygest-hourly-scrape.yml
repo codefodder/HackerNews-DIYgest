@@ -88,10 +88,15 @@ jobs:
           - Target Hour (UTC): ${TARGET_HOUR_UTC}
           - Current Hour: [${hour_now}]
           - Current Hour (UTC): [${hour_now_utc}]
-          - Force Email: ${{ inputs.send-email  }}
           - SEND_MAIL: ${SEND_MAIL}
 
           DEBUG_EMAIL_SCHEDULE
+
+      - name: Debug SEND_MAIL
+        run: |
+          echo "- Force Email: ${{ inputs.send-email  }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- env.SEND_MAIL: ${{ env.SEND_MAIL }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- env.SEND_MAIL == 'true': ${{ env.SEND_MAIL == 'true' }}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Email HackerNews DIYgest
         id: sending_email
