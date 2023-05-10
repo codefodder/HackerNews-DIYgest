@@ -65,8 +65,6 @@ jobs:
 
       - name: Decide if email is sent
         run: |
-          should_send_email=false
-
           hour_now=$(TZ=Asia/Bangkok date +%H)
           today="$(TZ=Asia/Bangkok date +%Y%m%d)"
           last_sent="${{ steps.read_yaml.outputs.sent }}"
@@ -74,7 +72,7 @@ jobs:
             echo "SEND_MAIL=true" >> "$GITHUB_ENV"
           fi
 
-          <<DEBUG_EMAIL_SCHEDULE >> "$GITHUB_STEP_SUMMARY"
+          cat <<DEBUG_EMAIL_SCHEDULE >> "$GITHUB_STEP_SUMMARY"
 
           Email schedule info
 
@@ -84,6 +82,7 @@ jobs:
           - Target Hour (UTC): ${TARGET_HOUR_UTC}
           - Current Hour: [${hour_now}]
           - Force Email: ${{ inputs.send-email  }}
+          - SEND_MAIL: $SEND_MAIL
 
           DEBUG_EMAIL_SCHEDULE
 
