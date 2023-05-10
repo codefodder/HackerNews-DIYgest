@@ -58,6 +58,15 @@ jobs:
       - name: Compose email
         run: bin/compose-email.sh
 
+      - name: Compose mustache email
+        run: |
+          echo "{
+            \"stories\":$(sqlite34  hn.db < stories.fields.sql),
+            \"prettydate\":\"$(TZ=Asia/Bangkok date "+%A, %d %b %Y")\",
+            \"exactdatetime\":\"$(TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M:%S")\"
+          }" \
+          | mustache hackernews.diyjest.mustache.html > digest.html
+
       - name: Read sent.yml
         id: read_yaml
         uses: actions-tools/yaml-outputs@v2

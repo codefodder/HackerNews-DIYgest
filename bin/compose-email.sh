@@ -12,7 +12,7 @@ CSS=$(cat css/style.css)
 STORIES=$(cat stories.html)
 SEND_TIME=$(TZ=Asia/Bangkok date "+Compiled on %Y-%m-%d at %H:%M:%S (Bangkok time)")
 
-cat <<HTML > digest.html
+cat <<HTML > original.html
 <!DOCTYPE html>
 <html>
   <head>
