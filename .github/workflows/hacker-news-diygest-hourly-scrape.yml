@@ -1,5 +1,9 @@
 name: Hacker News DIYgest Hourly Scrape
 
+env:
+  TARGET_HOUR: "08" # Bangkok Time
+  TARGET_HOUR_UTC: 1 # for cron
+
 on:
   workflow_dispatch:
     inputs:
@@ -59,15 +63,29 @@ jobs:
         with:
           file-path: 'sent.yml'
 
-      - name: Skip if email sent today
+      - name: Decide if email is sent
         run: |
-          echo "## Sent last: $(cat sent.yml)" >> "$GITHUB_STEP_SUMMARY"
-          echo "- - -" >> "$GITHUB_STEP_SUMMARY"
-          echo "# Force Email: ${{ inputs.send-email  }}" >> "$GITHUB_STEP_SUMMARY"
+          should_send_email=false
+
+          hour_now=$(TZ=Asia/Bangkok date +%H)
           today="$(TZ=Asia/Bangkok date +%Y%m%d)"
-          if [[ "${{ steps.read_yaml.outputs.sent }}" == "$today" ]]; then
-            echo "SEND_MAIL=false" >> "$GITHUB_ENV"
+          last_sent="${{ steps.read_yaml.outputs.sent }}"
+          if [[ "$today" != "$last_sent" && "$TARGET_HOUR" == "$hour_now" ]]; then
+            echo "SEND_MAIL=true" >> "$GITHUB_ENV"
           fi
+
+          <<DEBUG_EMAIL_SCHEDULE >> "$GITHUB_STEP_SUMMARY"
+
+          Email schedule info
+
+          - Last Sent: ${last_sent}
+          - Today: ${today}
+          - Target Hour: ${TARGET_HOUR}
+          - Target Hour (UTC): ${TARGET_HOUR_UTC}
+          - Current Hour: [${hour_now}]
+          - Force Email: ${{ inputs.send-email  }}
+
+          DEBUG_EMAIL_SCHEDULE
 
       - name: Email HackerNews DIYgest
         id: sending_email
