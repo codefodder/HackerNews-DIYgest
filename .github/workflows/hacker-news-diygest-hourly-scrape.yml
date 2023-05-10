@@ -76,7 +76,7 @@ jobs:
             SEND_MAIL="false"
           fi
 
-          echo "SEND_MAIL=$SEND_MAIL" >> "$GITHUB_ENV"
+          echo "SEND_MAIL=${SEND_MAIL}" >> "$GITHUB_ENV"
 
           cat <<DEBUG_EMAIL_SCHEDULE >> "$GITHUB_STEP_SUMMARY"
 
@@ -89,7 +89,7 @@ jobs:
           - Current Hour: [${hour_now}]
           - Current Hour (UTC): [${hour_now_utc}]
           - Force Email: ${{ inputs.send-email  }}
-          - SEND_MAIL: ${{ env.SEND_MAIL }}
+          - SEND_MAIL: ${SEND_MAIL}
 
           DEBUG_EMAIL_SCHEDULE
 
