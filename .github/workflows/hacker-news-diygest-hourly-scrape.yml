@@ -86,8 +86,8 @@ jobs:
           - Today: ${today}
           - Target Hour: ${TARGET_HOUR}
           - Target Hour (UTC): ${TARGET_HOUR_UTC}
-          - Current Hour: [${hour_now}]
-          - Current Hour (UTC): [${hour_now_utc}]
+          - Current Hour: ${hour_now}
+          - Current Hour (UTC): ${hour_now_utc}
           - SEND_MAIL: ${SEND_MAIL}
 
           DEBUG_EMAIL_SCHEDULE
