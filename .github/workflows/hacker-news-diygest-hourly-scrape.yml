@@ -18,7 +18,8 @@ on:
       debugging:
         description: Enable remote debugging?
         type: choice
-        default: no
+        default: false
+        required: false
         options:
           - yes
           - no
