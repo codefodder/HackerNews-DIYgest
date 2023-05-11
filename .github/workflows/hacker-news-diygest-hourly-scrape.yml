@@ -74,18 +74,18 @@ jobs:
           limit-access-to-actor: true
 
       - name: Scrape
-        run: bin/hn-hourly-scrape.py
+        run: bin/hn-hourly-scrape-pg.py
 
       - name: Review Current Top Stories
         run: |
-          sqlite3 hn.db < sql/stories.sql >> "$GITHUB_STEP_SUMMARY"
+          bin/stories.markdown.py >> "$GITHUB_STEP_SUMMARY""
 
       - name: Compose subject line
         run: bin/compose-subject-line.sh
 
       - name: Compose email payload
         run: |
-          stories=$(sqlite3 hn.db < sql/stories.fields.sql)
+          stories=$(bin/stories.json.py)
           prettydate="$(TZ=Asia/Bangkok date "+%A, %d %b %Y")"
           exactdatetime="$(TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M:%S")"
 
@@ -173,12 +173,4 @@ jobs:
         if: ${{ success() }}
         run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
-          echo "sent: $today" > sent.yml
-
-      - name: Upload database artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: hackernews-database
-          path: |
-            hn.db
-            sent.yml
+          bin/email-sent-event.py $today

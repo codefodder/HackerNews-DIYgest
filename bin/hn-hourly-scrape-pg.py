@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-import requests
-import ftfy
-import psycopg
 import os
 import sys
-import select
+import ftfy
+import requests
+import dbc
 
+import select
 from bs4 import BeautifulSoup
 
 def connect_to_db(url):
