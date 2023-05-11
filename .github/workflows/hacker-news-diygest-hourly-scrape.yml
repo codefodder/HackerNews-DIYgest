@@ -15,6 +15,13 @@ on:
         options:
           - "yes please"
           - "no thanks"
+      debugging:
+        description: Enable remote debugging?
+        type: choice
+        default: no
+        options:
+          - yes
+          - no
 
   schedule:
     - cron: "15,30,45 1 * * *"
@@ -60,10 +67,11 @@ jobs:
         run: go install github.com/cbroglie/mustache/cmd/mustache@latest
 
       - name: Setup tmate session
+        if: inputs.debugging == true
         uses: mxschmitt/action-tmate@v3
         with:
           limit-access-to-actor: true
-
++
       - name: Scrape
         run: bin/hn-hourly-scrape.py
 
