@@ -17,12 +17,11 @@ on:
           - "no thanks"
       debugging:
         description: Enable remote debugging?
+        default: "no thanks"
         type: choice
-        default: false
-        required: false
         options:
-          - yes
-          - no
+          - "yes please"
+          - "no thanks"
 
   schedule:
     - cron: "15,30,45 1 * * *"
@@ -68,7 +67,7 @@ jobs:
         run: go install github.com/cbroglie/mustache/cmd/mustache@latest
 
       - name: Setup tmate session
-        if: inputs.debugging == true && github.event_name == 'workflow_dispatch'
+        if: inputs.debugging == 'yes please' && github.event_name == 'workflow_dispatch'
         uses: mxschmitt/action-tmate@v3
         with:
           timeout-minutes: 1
