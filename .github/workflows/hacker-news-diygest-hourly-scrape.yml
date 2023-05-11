@@ -130,7 +130,7 @@ jobs:
           - inputs.send-email: ${{ inputs.send-email  }}
           - env.SEND_MAIL: ${{ env.SEND_MAIL }}
           - env.SEND_MAIL == 'true': ${{ env.SEND_MAIL == 'true' }}
-          - env.SEND_MAIL == 'true" || inputs.send-email == 'force': ${{ env.SEND_MAIL == 'true' || inputs.send-email == 'force' }}
+          - env.SEND_MAIL == 'true" || inputs.send-email == 'yes please': ${{ env.SEND_MAIL == 'true' || inputs.send-email == 'yes please' }}
 
           DEBUG
 
