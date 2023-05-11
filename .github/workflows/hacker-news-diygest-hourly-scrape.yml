@@ -1,8 +1,8 @@
 name: Hacker News DIYgest Hourly Scrape
 
 env:
-  TARGET_HOUR: "09" # Bangkok Time
-  TARGET_HOUR_UTC: 2
+  TARGET_HOUR: "08" # Bangkok Time
+  TARGET_HOUR_UTC: 1
   # must insert manually in cron below.
 
 on:
@@ -17,7 +17,7 @@ on:
           - "no thanks"
 
   schedule:
-    - cron: "10,20,30,40,50 2 * * *"
+    - cron: "15,30,45 1 * * *"
     - cron: "0 * * * *"
 
 jobs:
@@ -87,6 +87,7 @@ jobs:
           hour_now_utc=$(date +%H)
           today="$(TZ=Asia/Bangkok date +%Y%m%d)"
           last_sent="${{ steps.read_yaml.outputs.sent }}"
+
           if [[ "$today" != "$last_sent" && "$TARGET_HOUR" == "$hour_now" ]]; then
             SEND_MAIL="true"
           else
@@ -139,7 +140,6 @@ jobs:
           secure: true
           ignore_cert: true
           priority: high
-
 
       - name: Confirm sent
         if: ${{ success() }}
