@@ -27,42 +27,63 @@ Built with:
 
 CSS selectors for the useful parts of a hackernews:
 
-- Story title: `tr.athing td.title > span.titleline > a`
-- Story URL: `tr.athing td.title > span.titleline > a[href]`
-- Comment URL: `tr.athing + tr td.subtext > span.subline > a:last-child`
-- Comment count: `tr.athing + tr td.subtext > span.subline > a:last-child`
-- Score: `tr.athing + tr td.subtext > span.subline > span.score`
-- Submitted by username: `tr.athing + tr td.subtext > span.subline > a.hnuser`
-- Datetime: `tr.athing + tr td.subtext > span.subline > span.age[title]`
+- Story title: 
+  - `tr.athing td.title > span.titleline > a`
+- Story URL: 
+  - `tr.athing td.title > span.titleline > a[href]`
+- Comment URL: 
+  - `tr.athing + tr td.subtext > span.subline > a:last-child`
+- Comment count: 
+  - `tr.athing + tr td.subtext > span.subline > a:last-child`
+- Score: 
+  - `tr.athing + tr td.subtext > span.subline > span.score`
+- Submitted by username: 
+  - `tr.athing + tr td.subtext > span.subline > a.hnuser`
+- Datetime: 
+  - `tr.athing + tr td.subtext > span.subline > span.age[title]`
 
-It's worth noting that YCombinator's internal posts will not have score, comments, username etc. Datetime is there:
+It's worth noting that YCombinator's internal posts will not have score, comments, username etc. 
+
+However, Datetime is there, at a different selector path:
 
 - Datetime: `tr.athing + tr td.subtext > span.age[title]`
 
 ## Database
 
-I store everything in a Sqlite database, in a stories table:
+Stories are added to a Sqlite database.
+
+Stories table:
 
 ```sql
 CREATE TABLE IF NOT EXISTS stories
-(id INTEGER PRIMARY KEY AUTOINCREMENT,
-title TEXT,
-datetime TEXT,
-link TEXT UNIQUE,
-score INT,
-comment_url TEXT,
-comment_count INT,
-username TEXT,
-userlink TEXT);
+(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT,
+  datetime TEXT,
+  link TEXT UNIQUE,
+  score INT,
+  comment_url TEXT,
+  comment_count INT,
+  username TEXT,
+  userlink TEXT
+);
 ```
 
 ## Hosted in a Github workflow
 
-I set up a Github actions workflow, scheduled to run on every hour.
-Each time the workflow runs, if there's a previous run, it'll fetch sqlite database.
-It'll scrape the 30 front page stories, and inserts them into that database.  Updating the score 
-on any stories which are still on the front page.  When it's done, it'll save the db as an artifact 
-on that workflow run.
+GitHub workflows provide a simple method to run this process. The project uses a workflow, scheduled to run on every hour.
+
+### Database storage of HN stories
+
+It'll check for artifacts from a previous run or create a new sqlite database, and begin scraping stories from the hacker news front page, and adding them to the database.
+
+Duplicate stories update existing ones (keyed on URL), updating the score and commend count.
+
+The database is then uploaded as an artifact, to be used by the next run.
+
+### Email creation
+
+At target hour (For me that's 8am local time), the workflow composes an email from the top 30 stories of the day, based on score.  
 
 ## If you want to use it
 
@@ -75,4 +96,4 @@ Please be my guest, just fork the project and setup repo secrets
 - `GM_APPWRD`
   - also a Gmail App Password (Google Account > Security > App Passwords)
 
-It won't need to be downloaded, actions/workflow will take care of everything for you.
+It won't need to be cloned, downloaded, etc. The actions/workflow will take care of everything for you.
