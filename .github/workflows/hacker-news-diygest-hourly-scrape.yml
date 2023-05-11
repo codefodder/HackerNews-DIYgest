@@ -3,6 +3,7 @@ name: Hacker News DIYgest Hourly Scrape
 env:
   TARGET_HOUR: "08" # Bangkok Time
   TARGET_HOUR_UTC: 1
+  PSQLURL: secrets.PSQLURL
   # must insert manually in cron below.
 
 on:
@@ -26,9 +27,6 @@ on:
   schedule:
     - cron: "15,30,45 1 * * *"
     - cron: "0 * * * *"
-
-env:
-  PSQLURL: secrets.PSQLURL
 
 jobs:
   Hacker-News-DIYgest-Hourly-Scrape:
