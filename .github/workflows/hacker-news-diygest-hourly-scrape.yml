@@ -1,8 +1,8 @@
 name: Hacker News DIYgest Hourly Scrape
 
 env:
-  TARGET_HOUR: "08" # Bangkok Time
-  TARGET_HOUR_UTC: 1
+  TARGET_HOUR: "09" # Bangkok Time
+  TARGET_HOUR_UTC: 2
   # must insert manually in cron below.
 
 on:
@@ -17,7 +17,7 @@ on:
           - "no thanks"
 
   schedule:
-    - cron: "0,10,20,30,40,50 2 * * *"
+    - cron: "10,20,30,40,50 2 * * *"
     - cron: "0 * * * *"
 
 jobs:
@@ -63,10 +63,10 @@ jobs:
         run: |
           sqlite3 hn.db < stories.sql >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Compose email
-        run: bin/compose-email.sh
+      - name: Compose subject line
+        run: bin/compose-subject-line.sh
 
-      - name: Compose mustache email
+      - name: Compose email
         run: |
           echo "{
             \"stories\":$(sqlite3 hn.db < stories.fields.sql),
