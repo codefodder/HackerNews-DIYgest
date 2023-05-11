@@ -61,7 +61,7 @@ jobs:
 
       - name: Review Current Top Stories
         run: |
-          sqlite3 hn.db < stories.sql >> "$GITHUB_STEP_SUMMARY"
+          sqlite3 hn.db < sql/stories.sql >> "$GITHUB_STEP_SUMMARY"
 
       - name: Compose subject line
         run: bin/compose-subject-line.sh
@@ -69,11 +69,11 @@ jobs:
       - name: Compose email
         run: |
           echo "{
-            \"stories\":$(sqlite3 hn.db < stories.fields.sql),
+            \"stories\":$(sqlite3 hn.db < sql/stories.fields.sql),
             \"prettydate\":\"$(TZ=Asia/Bangkok date "+%A, %d %b %Y")\",
             \"exactdatetime\":\"$(TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M:%S")\"
           }" \
-          | mustache hackernews.diyjest.mustache.html > digest.html
+          | mustache mustache/hackernews.diyjest.mustache.html > digest.html
 
       - name: Read sent.yml
         id: read_yaml
