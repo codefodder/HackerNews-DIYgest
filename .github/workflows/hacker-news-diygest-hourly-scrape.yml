@@ -43,10 +43,13 @@ jobs:
            unzip -o artifact.zip
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          sudo apt-get update
-          sudo apt-get install -y markdown
+        run: pip install -r requirements.txt
+
+      - name: Install markdown
+        run: sudo apt-get update && sudo apt-get install -y markdown
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
       - name: Install Go
         uses: actions/setup-go@v2
@@ -55,6 +58,11 @@ jobs:
 
       - name: Install mustache-cli
         run: go install github.com/cbroglie/mustache/cmd/mustache@latest
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
 
       - name: Scrape
         run: bin/hn-hourly-scrape.py
