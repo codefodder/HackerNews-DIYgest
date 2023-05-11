@@ -67,11 +67,12 @@ jobs:
         run: go install github.com/cbroglie/mustache/cmd/mustache@latest
 
       - name: Setup tmate session
-        if: inputs.debugging == true
+        if: inputs.debugging == true && github.event_name == 'workflow_dispatch'
         uses: mxschmitt/action-tmate@v3
         with:
+          timeout-minutes: 1
           limit-access-to-actor: true
-+
+
       - name: Scrape
         run: bin/hn-hourly-scrape.py
 
