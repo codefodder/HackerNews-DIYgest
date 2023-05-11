@@ -1,0 +1,11 @@
+HackerNews top 30 Stories of {{prettydate}}
+
+{{#stories}}
+{{number}}. {{title}}
+    {{link}}
+ {{score}} | comments: {{comment_url}}
+{{/stories}}
+
+Project home:  https://github.com/codefodder/HackerNews-DIYgest
+
+Generated at {{exactdatetime}}

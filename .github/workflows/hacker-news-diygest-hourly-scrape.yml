@@ -66,14 +66,25 @@ jobs:
       - name: Compose subject line
         run: bin/compose-subject-line.sh
 
-      - name: Compose email
+      - name: Compose email payload
         run: |
+          stories=$(sqlite3 hn.db < sql/stories.fields.sql)
+          prettydate="$(TZ=Asia/Bangkok date "+%A, %d %b %Y")"
+          exactdatetime="$(TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M:%S")"
+
           echo "{
-            \"stories\":$(sqlite3 hn.db < sql/stories.fields.sql),
-            \"prettydate\":\"$(TZ=Asia/Bangkok date "+%A, %d %b %Y")\",
-            \"exactdatetime\":\"$(TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M:%S")\"
+            \"stories\": ${stories},
+            \"prettydate\":\"${prettydate}\",
+            \"exactdatetime\":\"${exactdatetime}\"
           }" \
           | mustache mustache/hackernews.diyjest.mustache.html > digest.html
+
+          echo "{
+            \"stories\": ${stories},
+            \"prettydate\":\"${prettydate}\",
+            \"exactdatetime\":\"${exactdatetime}\"
+          }" \
+          | mustache mustache/hackernews.diyjest.mustache.txt > digest.plaintext
 
       - name: Read sent.yml
         id: read_yaml
@@ -133,7 +144,7 @@ jobs:
           to: ${{secrets.GMAIL_USER}}
           username: ${{secrets.GMAIL_USER}}
           password: ${{secrets.GM_APPWRD}}
-          body: file://stories.md # plaintext
+          body: file://digest.plaintext
           html_body: file://digest.html
           server_address: smtp.gmail.com
           server_port: 465
