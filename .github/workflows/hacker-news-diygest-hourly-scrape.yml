@@ -174,4 +174,4 @@ jobs:
         if: ${{ success() }}
         run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
-          bin/email-sent-event.py $today
+          # bin/email-sent-event.py $today
