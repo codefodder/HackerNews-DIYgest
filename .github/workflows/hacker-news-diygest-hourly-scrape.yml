@@ -79,7 +79,7 @@ jobs:
 
       - name: Review Current Top Stories
         run: |
-          bin/stories.markdown.py >> "$GITHUB_STEP_SUMMARY""
+          bin/stories.markdown.py >> "$GITHUB_STEP_SUMMARY"
 
       - name: Compose subject line
         run: bin/compose-subject-line.sh
