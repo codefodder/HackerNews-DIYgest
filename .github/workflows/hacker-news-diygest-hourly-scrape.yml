@@ -18,7 +18,7 @@ on:
 
   schedule:
     - cron: "0 * * * *"
-    - cron: "*/15 1 * * *"
+    - cron: "0,10,20,30,40,50 1 * * *"
 
 jobs:
   Hacker-News-DIYgest-Hourly-Scrape:
