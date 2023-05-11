@@ -69,8 +69,7 @@ for story in stories:
             (title, datetime, link, score, comment_url, username, userlink)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT(link) DO UPDATE SET
-                score = excluded.score,
-                comment_count = excluded.comment_count
+                score = excluded.score
     """
 
     conn.execute(query, (title, datetime, link, score, comment_url, username, userlink))
