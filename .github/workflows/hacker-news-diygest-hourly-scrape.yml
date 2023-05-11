@@ -27,6 +27,9 @@ on:
     - cron: "15,30,45 1 * * *"
     - cron: "0 * * * *"
 
+env:
+  PSQLURL: secrets.PSQLURL
+
 jobs:
   Hacker-News-DIYgest-Hourly-Scrape:
     runs-on: ubuntu-latest
