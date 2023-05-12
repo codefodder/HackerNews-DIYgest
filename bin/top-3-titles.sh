@@ -3,9 +3,7 @@
 psql -tAq $PSQLURL <<HERE
     SET client_encoding TO 'UTF8';
 
-    SELECT FORMAT('- [%s](%s)
-    - %s points // [comments](%s)',
-                  title, link, score, comment_url)
+    SELECT title
     FROM stories
 
     WHERE datetime
@@ -13,5 +11,5 @@ psql -tAq $PSQLURL <<HERE
     AND current_date
 
     ORDER BY score DESC, datetime DESC
-    LIMIT 30;
+    LIMIT 3;
 HERE

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-psql -A -q -t $PSQLURL <<HERE
+psql -tAq $PSQLURL <<HERE
     SET client_encoding TO 'UTF8';
 
     SELECT json_agg(row_to_json(stories)) AS stories_json
