@@ -114,8 +114,8 @@ jobs:
         run: |
           HOUR_NOW=$(TZ=Asia/Bangkok date +%H)
           HOUR_NOW_UTC=$(date +%H)
-          TODAY="$(TZ=Asia/Bangkok date +%Y%m%d)"
-          EMAIL_SENT_TODAY="$(bin/email-already-sent-today.sh ${TODAY})'
+          TODAY=$(TZ=Asia/Bangkok date +%Y%m%d)
+          EMAIL_SENT_TODAY=$(bin/email-already-sent-today.sh ${TODAY})
 
           if [[ "$TARGET_HOUR" == "$HOUR_NOW" && "$EMAIL_SENT_TODAY" != "0" ]]; then
             SEND_MAIL="true"
