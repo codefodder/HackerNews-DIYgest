@@ -97,6 +97,7 @@ jobs:
 
       - name: Should we send the mail now
         run: |
+
           HOUR_NOW=$(TZ=Asia/Bangkok date +%H)
           HOUR_NOW_UTC=$(date +%H)
           TODAY=$(TZ=Asia/Bangkok date +%Y%m%d)
@@ -106,6 +107,10 @@ jobs:
             SEND_MAIL="true"
           else
             SEND_MAIL="false"
+          fi
+
+          if [[  ${{ inputs.send-email }} == 'yes please' ]];
+            SEND_MAIL="true"
           fi
 
           echo "SEND_MAIL=${SEND_MAIL}" >> "$GITHUB_ENV"
@@ -130,16 +135,14 @@ jobs:
 
           # Debug SEND_MAIL
 
-          - inputs.send-email: ${{ inputs.send-email  }}
           - env.SEND_MAIL: ${{ env.SEND_MAIL }}
-          - env.SEND_MAIL == 'true': ${{ env.SEND_MAIL == 'true' }}
-          - env.SEND_MAIL == 'true" || inputs.send-email == 'yes please': ${{ env.SEND_MAIL == 'true' || inputs.send-email == 'yes please' }}
+          - env.SEND_MAIL == 'true'?: ${{ env.SEND_MAIL == 'true' }}
 
           DEBUG
 
       - name: Email HackerNews DIYgest
         id: sending_email
-        if: env.SEND_MAIL == 'true' || inputs.send-email == 'yes please'
+        if: env.SEND_MAIL == 'true'
         uses: dawidd6/action-send-mail@v3
         with:
           subject: ${{ env.SUBJECT_LINE }}
@@ -155,7 +158,7 @@ jobs:
           ignore_cert: true
           priority: high
 
-      - name: Confirm sent
+      - name: emailSent -> db
         if: ${{ success() }}
         run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
