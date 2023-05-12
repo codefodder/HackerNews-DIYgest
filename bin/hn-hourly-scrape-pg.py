@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS stories  (
     title VARCHAR(255),
     datetime TIMESTAMP,
     link TEXT UNIQUE,
-    score INT,
+    score INTEGER,
     comment_url TEXT,
     username VARCHAR(255),
     userlink TEXT);
