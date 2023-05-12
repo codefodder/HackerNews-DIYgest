@@ -47,13 +47,13 @@ jobs:
         with:
           tools: markdown postgresql-client
           method: timestamp
+          key: apt-get-cache
 
       - name: Install Go
         uses: gacts/setup-go-with-cache@v1
         with:
           go-version: 1.19
           go-version-file:
-          cache-key-suffix: golang
 
       - name: Install mustache-cli
         run: go install github.com/cbroglie/mustache/cmd/mustache@latest
@@ -109,7 +109,7 @@ jobs:
             SEND_MAIL="false"
           fi
 
-          if [[  ${{ inputs.send-email }} == 'yes please' ]];
+          if [[ "${{ inputs.send-email }}" == 'yes please' ]];
             SEND_MAIL="true"
           fi
 
