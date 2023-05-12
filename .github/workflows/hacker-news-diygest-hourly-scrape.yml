@@ -112,12 +112,12 @@ jobs:
 
       - name: Should we send the mail now
         run: |
-          hour_now=$(TZ=Asia/Bangkok date +%H)
-          hour_now_utc=$(date +%H)
-          today="$(TZ=Asia/Bangkok date +%Y%m%d)"
-          last_sent="${{ steps.read_yaml.outputs.sent }}"
+          HOUR_NOW=$(TZ=Asia/Bangkok date +%H)
+          HOUR_NOW_UTC=$(date +%H)
+          TODAY="$(TZ=Asia/Bangkok date +%Y%m%d)"
+          EMAIL_SENT_TODAY="$(bin/email-already-sent-today.sh ${TODAY})'
 
-          if [[ "$today" != "$last_sent" && "$TARGET_HOUR" == "$hour_now" ]]; then
+          if [[ "$TARGET_HOUR" == "$HOUR_NOW" && "$EMAIL_SENT_TODAY" != "0" ]]; then
             SEND_MAIL="true"
           else
             SEND_MAIL="false"
@@ -129,12 +129,12 @@ jobs:
 
           Email schedule info
 
-          - Last Sent: ${last_sent}
-          - Today: ${today}
+          - Email(s) Sent Today: ${EMAIL_SENT_TODAY}
+          - Today: ${TODAY}
           - Target Hour: ${TARGET_HOUR}
           - Target Hour (UTC): ${TARGET_HOUR_UTC}
-          - Current Hour: ${hour_now}
-          - Current Hour (UTC): ${hour_now_utc}
+          - Current Hour: ${HOUR_NOW}
+          - Current Hour (UTC): ${HOUR_NOW_UTC}
           - SEND_MAIL: ${SEND_MAIL}
 
           DEBUG_EMAIL_SCHEDULE
@@ -174,4 +174,4 @@ jobs:
         if: ${{ success() }}
         run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
-          # bin/email-sent-event.py $today
+          bin/email-sent-event.sh $today

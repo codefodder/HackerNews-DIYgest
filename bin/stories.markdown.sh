@@ -1,9 +1,10 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 psql -A -q -t $PSQLURL <<HERE
     SET client_encoding TO 'UTF8';
 
-    SELECT FORMAT('- [%s](%s)\n    - %s points // [comments](%s)',
+    SELECT FORMAT('- [%s](%s)
+    - %s points // [comments](%s)',
                   title, link, score, comment_url)
     FROM stories
 

@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 psql -A -q -t $PSQLURL <<HERE
     SET client_encoding TO 'UTF8';
