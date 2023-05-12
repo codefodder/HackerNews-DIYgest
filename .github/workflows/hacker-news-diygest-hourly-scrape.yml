@@ -109,7 +109,7 @@ jobs:
             SEND_MAIL="false"
           fi
 
-          if [[ "${{ inputs.send-email }}" == 'yes please' ]];
+          if [[ "${{ inputs.send-email }}" == 'yes please' ]]; then
             SEND_MAIL="true"
           fi
 
