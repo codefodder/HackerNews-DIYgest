@@ -68,3 +68,15 @@ Please be my guest, you can fork the project and setup repo secrets
   - I am using [neon.tech](https://neon.tech)
 
 The workflow looks after everything else
+
+# Delivery time
+
+You will probably want to set the email delivery time.
+
+This is set in the workflow, as a schedule trigger, two cron schedules and TARGET_HOUR. All set at the top of the workflow.
+
+# Issues
+
+Open an issue to ask if a PR submission will be accepted.  Usage info etc.
+
+If you have cool features you'd like me to add, do like I do, and DIY.
