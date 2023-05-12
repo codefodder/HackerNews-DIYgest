@@ -109,7 +109,7 @@ jobs:
             echo "TARGET_HOUR=$TARGET_HOUR" >> "$GITHUB_ENV"
           fi
 
-          if [[ "$TARGET_HOUR" == "$HOUR_NOW" && "$EMAIL_SENT_TODAY" != "0" ]]; then
+          if [[ "$TARGET_HOUR" == "$HOUR_NOW" && "$EMAIL_SENT_TODAY" == "0" ]]; then
             SEND_MAIL="true"
           else
             SEND_MAIL="false"
