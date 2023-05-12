@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       send-email:
-        description: Force send email on this run?
+        description: Email target hour override?
         default: "no thanks"
         type: choice
         options:
@@ -103,14 +103,14 @@ jobs:
           TODAY=$(TZ=Asia/Bangkok date +%Y%m%d)
           EMAIL_SENT_TODAY=$(bin/email-already-sent-today.sh ${TODAY})
 
+          if [[ "${{ inputs.send-email }}" == 'yes please' ]]; then
+            TARGET_HOUR="$HOUR_NOW"
+          fi
+
           if [[ "$TARGET_HOUR" == "$HOUR_NOW" && "$EMAIL_SENT_TODAY" != "0" ]]; then
             SEND_MAIL="true"
           else
             SEND_MAIL="false"
-          fi
-
-          if [[ "${{ inputs.send-email }}" == 'yes please' ]]; then
-            SEND_MAIL="true"
           fi
 
           echo "SEND_MAIL=${SEND_MAIL}" >> "$GITHUB_ENV"
