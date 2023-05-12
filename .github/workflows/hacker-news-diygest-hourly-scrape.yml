@@ -112,12 +112,6 @@ jobs:
           }" \
           | mustache mustache/hackernews.diyjest.mustache.txt > digest.plaintext
 
-      - name: Read sent.yml
-        id: read_yaml
-        uses: actions-tools/yaml-outputs@v2
-        with:
-          file-path: 'sent.yml'
-
       - name: Should we send the mail now
         run: |
           HOUR_NOW=$(TZ=Asia/Bangkok date +%H)
