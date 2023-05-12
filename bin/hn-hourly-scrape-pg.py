@@ -35,6 +35,9 @@ for story in stories:
     title = ftfy.fix_text(title_elem.text)
     link = title_elem['href']
 
+    if link.startswith('item'):
+        link = f"{hn}{link}"
+
     # Extract comment URL and count
     subtext_elem = story.find_next_sibling('tr')
     subline_elem = subtext_elem.select_one('span.subline')
