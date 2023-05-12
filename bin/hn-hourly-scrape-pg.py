@@ -12,6 +12,27 @@ from bs4 import BeautifulSoup
 conn = connect_to_db(os.environ['PSQLURL'])
 c = conn.cursor()
 
+# Create tables...
+c.execute(f"""
+CREATE TABLE IF NOT EXISTS stories  (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255),
+    datetime TIMESTAMP,
+    link TEXT UNIQUE,
+    score INT,
+    comment_url TEXT,
+    username VARCHAR(255),
+    userlink TEXT);
+);""")
+
+c.execute(f"""
+CREATE TABLE IF NOT EXISTS event_log (
+   id SERIAL PRIMARY KEY,
+   value VARCHAR(255),
+   event VARCHAR(255),
+   datetime TIMESTAMP DEFAULT NOW()
+);""")
+
 hn = "https://news.ycombinator.com/"
 
 print(f"Read from {hn}")
@@ -59,14 +80,7 @@ for story in stories:
         datetime = subtext_elem.select_one('span.age')['title']
         comment_url = ""
 
-    if username:
-        print(f"{title} ({username})")
-    else:
-        print(f"{title} (YC)")
-
-    print(link)
-
-    # Define the query
+    # Insert stories
     query = """
             INSERT INTO stories
             (title, datetime, link, score, comment_url, username, userlink)

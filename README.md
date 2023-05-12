@@ -1,39 +1,41 @@
+# I wanted a long term archive of HN top stories.
+
+ I've held a subscription to hndigest for quite a few years. I didn't notice, or
+care that much that they use middleman links in their emails.
+
+I didn't mind all that much, I  wanted to keep track of all the top stories on
+Hacker News. Then, quite recently I found those links don't work after 5 months.
+
+*unsubscribe*
+
 # HackerNews DIYgest
 
-So, I've been subscribed to hndigest for several years. Turns out I didn't notice 
-they use middleman links in their emails. Click on a story or comment link, but it's a link from
-hndigest that then bounces you on to HackerNews. 
+So I made my own Hacker News email digest.
 
-I don't mind all that much, but I was using hndigest to keep track of all the top stories on
-Hacker News, but then I found those links don't even work after 5 months. Oh.
-
-So long, hndigest, it's been fun. *hits unsubscribe*
-
-# Better I DIY this myself
-
-<img width="847" alt="hnd" src="https://user-images.githubusercontent.com/71587/236861882-4d3db219-e86d-4bc8-8792-5b6d08fc9d16.png">
+![](images/hacker-news-diygest.png)
 
 Built with:
 
-- **GitHub Actions**
-- **HTML**
-- **CSS**
-- **Gmail**
+- GitHub Actions - to run the scheduled process
+- HTML, CSS
+- Gmail
+- Python and Bash/Sh
 - [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) for html scraping.
 - [ftfy](https://github.com/LuminosoInsight/python-ftfy) fix up garbled â€“ text.
-- [sqlite](https://www.sqlite.org/index.html) stash the posts / links / metadata into a database.
+- [postgresql](https://www.postgresql.org/) feed story headlines, links etc into a database.
+    - [neon.tech (2Gb free tier)](https://neon.tech/docs/introduction/technical-preview-free-tier)
 
-### Scrape HN Page...
+### Gather frontpage stories
 
-CSS selectors for the useful parts of a hackernews:
+Every hour we can pull the stories from the site.
+
+CSS selectors for the useful parts:
 
 - Story title: 
   - `tr.athing td.title > span.titleline > a`
 - Story URL: 
   - `tr.athing td.title > span.titleline > a[href]`
 - Comment URL: 
-  - `tr.athing + tr td.subtext > span.subline > a:last-child`
-- Comment count: 
   - `tr.athing + tr td.subtext > span.subline > a:last-child`
 - Score: 
   - `tr.athing + tr td.subtext > span.subline > span.score`
@@ -42,52 +44,17 @@ CSS selectors for the useful parts of a hackernews:
 - Datetime: 
   - `tr.athing + tr td.subtext > span.subline > span.age[title]`
 
-It's worth noting that YCombinator's internal posts will not have score, comments, username etc. 
-
-However, Datetime is there, at a different selector path:
+YCombinator's internal posts will not have score, comments, username etc. Datetime is there, at a different CSS selector path:
 
 - Datetime: `tr.athing + tr td.subtext > span.age[title]`
 
-## Database
+### Email schedule
 
-Stories are added to a Sqlite database.
-
-Stories table:
-
-```sql
-CREATE TABLE IF NOT EXISTS stories
-(
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT,
-  datetime TEXT,
-  link TEXT UNIQUE,
-  score INT,
-  comment_url TEXT,
-  comment_count INT,
-  username TEXT,
-  userlink TEXT
-);
-```
-
-## Hosted in a Github workflow
-
-GitHub workflows provide a simple method to run this process. The project uses a workflow, scheduled to run on every hour.
-
-### Database storage of HN stories
-
-It'll check for artifacts from a previous run or create a new sqlite database, and begin scraping stories from the hacker news front page, and adding them to the database.
-
-Duplicate stories update existing ones (keyed on URL), updating the score and commend count.
-
-The database is then uploaded as an artifact, to be used by the next run.
-
-### Email creation
-
-At target hour (For me that's 8am local time), the workflow composes an email from the top 30 stories of the day, based on score.  
+At target hour (For me that's 8am local time), a [GitHub workflow](https://github.com/codefodder/HackerNews-DIYgest/blob/master/.github/workflows/hacker-news-diygest-hourly-scrape.yml) composes an email from the top 30 stories of the day, based on score.
 
 ## If you want to use it
 
-Please be my guest, just fork the project and setup repo secrets 
+Please be my guest, you can fork the project and setup repo secrets 
 
 - `ACCESS_TOKEN`
   - a Github fine grained access token that can read from repo actions.
@@ -95,5 +62,8 @@ Please be my guest, just fork the project and setup repo secrets
   - Emails are sent out using Gmail, so you will need a gmail email name.
 - `GM_APPWRD`
   - also a Gmail App Password (Google Account > Security > App Passwords)
+- `PSQLURL`
+  - Postgres server `postgresql://username:passwd@host/database`
+  - I am using [neon.tech](https://neon.tech)
 
-It won't need to be cloned, downloaded, etc. The actions/workflow will take care of everything for you.
+The workflow looks after everything else
