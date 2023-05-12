@@ -35,21 +35,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Fetch database and sent.yml
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: |
-           # create an empty sent file...
-           echo "sent: never" > sent.yml
-
-           # fetch the database and yml from artifact.zip
-           gh auth login --with-token <<<"$ACCESS_TOKEN"
-           asset=$(gh api /repos/codefodder/hacker-news-digest/actions/artifacts --jq ".artifacts[0] .archive_download_url")
-           curl -L -s -o artifact.zip "$asset" \
-           -H "Accept: application/vnd.github.v3+json" \
-           -H "Authorization: Bearer $ACCESS_TOKEN"
-           unzip -o artifact.zip
-
       - name: Install dependencies
         run: pip install -r requirements.txt
 
