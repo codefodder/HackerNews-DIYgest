@@ -5,7 +5,8 @@ psql -tAq $PSQLURL <<HERE
 
     SELECT json_agg(row_to_json(stories)) AS stories_json
     FROM (
-      SELECT title, link, score, comment_url, ROW_NUMBER() OVER () AS number
+      SELECT title, link, score, comment_url,
+             ROW_NUMBER() OVER (ORDER BY score DESC, datetime DESC) AS number
       FROM stories
 
       WHERE datetime

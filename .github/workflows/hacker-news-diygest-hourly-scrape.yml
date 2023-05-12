@@ -4,7 +4,6 @@ env:
   TARGET_HOUR: "08" # Bangkok Time
   TARGET_HOUR_UTC: 1
   PSQLURL: ${{ secrets.PSQLURL }}
-  # must insert manually in cron below.
 
 on:
   workflow_dispatch:
@@ -95,7 +94,7 @@ jobs:
           }" \
           | mustache mustache/hackernews.diyjest.mustache.txt > digest.plaintext
 
-      - name: Should we send the mail now
+      - name: 'Should we send the mail now?'
         run: |
 
           HOUR_NOW=$(TZ=Asia/Bangkok date +%H)
@@ -160,7 +159,7 @@ jobs:
           ignore_cert: true
           priority: high
 
-      - name: emailSent -> db
+      - name: 'Event log - emailSent'
         if: ${{ success() }}
         run: |
           today=$(TZ=Asia/Bangkok date +%Y%m%d)
