@@ -79,14 +79,14 @@ jobs:
 
       - name: Review Current Top Stories
         run: |
-          bin/stories.markdown.py >> "$GITHUB_STEP_SUMMARY"
+          bin/stories.markdown.sh >> "$GITHUB_STEP_SUMMARY"
 
       - name: Compose subject line
         run: bin/compose-subject-line.sh
 
       - name: Compose email payload
         run: |
-          stories=$(bin/stories.json.py)
+          stories=$(bin/stories.json.sh)
           prettydate="$(TZ=Asia/Bangkok date "+%A, %d %b %Y")"
           exactdatetime="$(TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M:%S")"
 

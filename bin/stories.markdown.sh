@@ -1,12 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/sh
 
-import os
-from dbc import *
+psql -A -q -t $PSQLURL <<HERE
+    SET client_encoding TO 'UTF8';
 
-conn = connect_to_db(os.environ['PSQLURL'])
-c = conn.cursor()
-
-query = f"""
     SELECT FORMAT('- [%s](%s)\n    - %s points // [comments](%s)',
                   title, link, score, comment_url)
     FROM stories
@@ -17,12 +13,4 @@ query = f"""
 
     ORDER BY score DESC, datetime DESC
     LIMIT 30;
-"""
-
-c.execute(query)
-rows = c.fetchall()
-
-for row in rows:
-    print(row[0])
-
-disconnect_from_db(conn, c)
+HERE
