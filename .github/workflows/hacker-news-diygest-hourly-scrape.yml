@@ -105,6 +105,7 @@ jobs:
 
           if [[ "${{ inputs.send-email }}" == 'yes please' ]]; then
             TARGET_HOUR="$HOUR_NOW"
+            echo "Override target hour: $TARGET_HOUR"
           fi
 
           if [[ "$TARGET_HOUR" == "$HOUR_NOW" && "$EMAIL_SENT_TODAY" != "0" ]]; then
