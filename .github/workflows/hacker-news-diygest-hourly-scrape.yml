@@ -35,6 +35,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Cache Python modules
+      - name: Cache Python modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # Cache Go command line utils
+      - name: Cache Go command line utils
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod/cache/download
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.mod') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Cache apt-get packages
+        uses: actions/cache@v2
+        with:
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-apt-get-${{ hashFiles('**/apt.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-get-
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
