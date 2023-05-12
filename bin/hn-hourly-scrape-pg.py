@@ -13,7 +13,7 @@ conn = connect_to_db(os.environ['PSQLURL'])
 c = conn.cursor()
 
 # Create tables...
-c.execute(f"""
+c.execute("""
 CREATE TABLE IF NOT EXISTS stories  (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255),
@@ -23,15 +23,15 @@ CREATE TABLE IF NOT EXISTS stories  (
     comment_url TEXT,
     username VARCHAR(255),
     userlink TEXT);
-);""")
+""")
 
 c.execute(f"""
 CREATE TABLE IF NOT EXISTS event_log (
    id SERIAL PRIMARY KEY,
    value VARCHAR(255),
    event VARCHAR(255),
-   datetime TIMESTAMP DEFAULT NOW()
-);""")
+   datetime TIMESTAMP DEFAULT NOW());
+""")
 
 hn = "https://news.ycombinator.com/"
 
