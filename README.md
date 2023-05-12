@@ -18,6 +18,7 @@ Built with:
 
 - GitHub Actions - to run the scheduled process
 - HTML, CSS
+- [mustache](https://mustache.github.io/) templates, specifically [this implementation](https://github.com/cbroglie/mustache)
 - Gmail
 - Python and Bash/Sh
 - [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) for html scraping.
