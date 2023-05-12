@@ -33,44 +33,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # Cache Python modules
-      - name: Cache Python modules
-        uses: actions/cache@v2
+      - name: Cache Python
+        uses: actions/setup-python@v4
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          python-version: '3.11'
+          cache: 'pip' # caching pip dependencies
 
-      # Cache Go command line utils
-      - name: Cache Go command line utils
-        uses: actions/cache@v2
+      - run: pip install -r requirements.txt
+
+      # if that ^ doesn't work, try this.
+      # - uses: tecolicom/actions-use-python-tools@v1
+      #   with:
+      #     tools: ftfy beautifulsoup4 requests
+
+      - name: Install and cache markdown & postgresql-client
+        uses: tecolicom/actions-use-apt-tools@v1
         with:
-          path: ~/go/pkg/mod/cache/download
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.mod') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          tools: markdown postgresql-client
+          method: timestamp
 
-      - name: Cache apt-get packages
-        uses: actions/cache@v2
-        with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-get-${{ hashFiles('**/apt.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-get-
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
 
-      - name: Install markdown
-        run: sudo apt-get update && sudo apt-get install -y markdown postgresql-client
 
       - name: Install Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.17
+        uses: gacts/setup-go-with-cache@v1
+        with: {go-version: 1.19}
 
       - name: Install mustache-cli
         run: go install github.com/cbroglie/mustache/cmd/mustache@latest
