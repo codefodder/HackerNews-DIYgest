@@ -6,6 +6,27 @@ env:
   PSQLURL: ${{ secrets.PSQLURL }}
 
 on:
+  schedule:
+    # every hour run the workflow to collect stories through the day
+    - cron: "0 * * * *"
+    
+    # On the target hour, run additional triggers
+    # every 15 minutes in case of failure
+    
+    - cron: "15,30,45 1 * * *" 
+    # modify target   ^ hour. (set at 01:00 UTC)
+    
+    # WARNING: if the two cron settings form a time intersection    
+    # where two triggers would be done at once, neither will trigger.
+    # 
+    # Experiment during development, 09 May 2023:
+    #
+    # e.g. - cron: "0 * * * *"
+    #      - cron: "0/15 1 * * *"
+    #
+    #      Trigger ran at 00:00 and 02:00, the 01:00 triggers did not run.
+    #
+    
   workflow_dispatch:
     inputs:
       send-email:
@@ -15,17 +36,13 @@ on:
         options:
           - "yes please"
           - "no thanks"
-      debugging:
-        description: Enable remote debugging?
-        default: "no thanks"
-        type: choice
-        options:
-          - "yes please"
-          - "no thanks"
-
-  schedule:
-    - cron: "15,30,45 1 * * *"
-    - cron: "0 * * * *"
+#       debugging:
+#         description: Enable remote debugging?
+#         default: "no thanks"
+#         type: choice
+#         options:
+#           - "yes please"
+#           - "no thanks"
 
 jobs:
   Hacker-News-DIYgest-Hourly-Scrape:
@@ -52,17 +69,17 @@ jobs:
         uses: gacts/setup-go-with-cache@v1
         with:
           go-version: 1.19
-          go-version-file:
+          go-version-file: ''
 
       - name: Install mustache-cli (golang dep)
         run: go install github.com/cbroglie/mustache/cmd/mustache@latest
 
-      - name: Setup tmate session
-        if: inputs.debugging == 'yes please' && github.event_name == 'workflow_dispatch'
-        uses: mxschmitt/action-tmate@v3
-        with:
-          timeout-minutes: 1
-          limit-access-to-actor: true
+#       - name: Setup tmate session
+#         if: inputs.debugging == 'yes please' && github.event_name == 'workflow_dispatch'
+#         uses: mxschmitt/action-tmate@v3
+#         with:
+#           timeout-minutes: 1
+#           limit-access-to-actor: true
 
       - name: Scrape
         run: bin/hn-hourly-scrape-pg.py
