@@ -104,12 +104,13 @@ jobs:
           }" \
           | mustache mustache/hackernews.diyjest.mustache.html > digest.html
 
-          echo "{
-            \"stories\": ${stories},
-            \"prettydate\":\"${prettydate}\",
-            \"exactdatetime\":\"${exactdatetime}\"
-          }" \
-          | mustache mustache/hackernews.diyjest.mustache.txt > digest.plaintext
+          cat <<HERE > digest.plaintext
+          HackerNews top 30 stories of ${prettydate}
+
+          $(bin/stories.plaintext.sh)
+
+          Generated at ${exactdatetime} - https://github.com/codefodder/HackerNews-DIYgest
+          HERE
 
       - name: 'Should we send the mail now?'
         run: |
