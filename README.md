@@ -1,12 +1,10 @@
-# I wanted a long term archive of HN top stories.
+I'd held a subscription to hndigest for quite a few years. I didn't notice, or
+care much they used middleman links in their emails.
 
- I've held a subscription to hndigest for quite a few years. I didn't notice, or
-care that much that they use middleman links in their emails.
+Even so I wanted to keep track of all the top stories on Hacker News. Then,
+quite recently, I found those links don't work after a few months...
 
-I didn't mind all that much, I  wanted to keep track of all the top stories on
-Hacker News. Then, quite recently I found those links don't work after 5 months.
-
-*unsubscribe*
+... *unsubscribe* ... create:
 
 # HackerNews DIYgest
 
