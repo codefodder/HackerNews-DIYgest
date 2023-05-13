@@ -67,11 +67,12 @@ Please be my guest, you can fork the project and setup repo secrets
 
 The workflow looks after everything else
 
-# Delivery time
+# Email delivery time
 
-You will probably want to set the email delivery time.
+You will probably want to set the email delivery time. This is set in the
+workflow, as a schedule trigger, two cron schedules and TARGET_HOUR and TIMEZONE. 
 
-This is set in the workflow, as a schedule trigger, two cron schedules and TARGET_HOUR. All set at the top of the workflow.
+Set them at the top of the workflow.
 
 # Issues
 
