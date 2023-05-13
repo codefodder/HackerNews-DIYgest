@@ -1,8 +1,8 @@
 name: Hacker News DIYgest Hourly Scrape
 
 env:
-  TARGET_HOUR: "08" # Bangkok Time
-  TARGET_HOUR_UTC: 1
+  TARGET_HOUR: "08"
+  TIMEZONE: "Asia/Bangkok"
   PSQLURL: ${{ secrets.PSQLURL }}
 
 on:
@@ -94,8 +94,8 @@ jobs:
       - name: Compose email payload
         run: |
           stories=$(bin/stories.json.sh)
-          prettydate="$(TZ=Asia/Bangkok date "+%A, %d %b %Y")"
-          exactdatetime="$(TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M:%S")"
+          prettydate="$(TZ=$TIMEZONE date "+%A, %d %b %Y")"
+          exactdatetime="$(TZ=$TIMEZONE date "+%Y-%m-%d %H:%M:%S")"
 
           echo "{
             \"stories\": ${stories},
@@ -114,9 +114,8 @@ jobs:
       - name: 'Should we send the mail now?'
         run: |
 
-          HOUR_NOW=$(TZ=Asia/Bangkok date +%H)
-          HOUR_NOW_UTC=$(date +%H)
-          TODAY=$(TZ=Asia/Bangkok date +%Y%m%d)
+          HOUR_NOW=$(TZ=$TIMEZONE date +%H)
+          TODAY=$(TZ=$TIMEZONE date +%Y%m%d)
           EMAIL_SENT_TODAY=$(bin/email-already-sent-today.sh ${TODAY})
 
           if [[ "${{ inputs.send-email }}" == 'yes please' ]]; then
@@ -139,10 +138,9 @@ jobs:
 
           - Email(s) Sent Today: ${EMAIL_SENT_TODAY}
           - Today: ${TODAY}
+          - Timezone: ${TIMEZONE}
           - Target Hour: ${TARGET_HOUR}
-          - Target Hour (UTC): ${TARGET_HOUR_UTC}
           - Current Hour: ${HOUR_NOW}
-          - Current Hour (UTC): ${HOUR_NOW_UTC}
           - SEND_MAIL: ${SEND_MAIL}
 
           DEBUG_EMAIL_SCHEDULE
@@ -179,5 +177,5 @@ jobs:
       - name: 'Event log - emailSent'
         if: ${{ success() }}
         run: |
-          today=$(TZ=Asia/Bangkok date +%Y%m%d)
+          today=$(TZ=$TIMEZONE date +%Y%m%d)
           bin/email-sent-event.sh $today
