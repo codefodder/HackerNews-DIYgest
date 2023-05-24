@@ -163,7 +163,7 @@ jobs:
         with:
           subject: ${{ env.SUBJECT_LINE }}
           from: HackerNews DIYgest
-          to: ${{secrets.GMAIL_USER}}
+          to: ${{secrets.EMAIL_RECIPIENT}}
           username: ${{secrets.GMAIL_USER}}
           password: ${{secrets.GM_APPWRD}}
           body: file://digest.plaintext
