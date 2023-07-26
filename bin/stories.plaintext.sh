@@ -19,8 +19,6 @@ psql -tAq $PSQLURL <<HERE
     BETWEEN current_date - interval '1 day'
     AND current_date
 
-    ORDER BY
-        score DESC,
-        datetime DESC
-        LIMIT 100;
+    ORDER BY score DESC, datetime DESC
+    LIMIT 50;
 HERE

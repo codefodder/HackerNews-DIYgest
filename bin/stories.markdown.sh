@@ -13,5 +13,5 @@ psql -tAq $PSQLURL <<HERE
     AND current_date
 
     ORDER BY score DESC, datetime DESC
-    LIMIT 100;
+    LIMIT 50;
 HERE
