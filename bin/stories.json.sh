@@ -14,6 +14,6 @@ psql -tAq $PSQLURL <<HERE
       AND current_date
 
       ORDER BY score DESC, datetime DESC
-      LIMIT 30
+      LIMIT 100
     ) AS stories;
 HERE

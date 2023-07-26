@@ -22,5 +22,5 @@ psql -tAq $PSQLURL <<HERE
     ORDER BY
         score DESC,
         datetime DESC
-        LIMIT 30;
+        LIMIT 100;
 HERE
