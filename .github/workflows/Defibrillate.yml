@@ -10,7 +10,7 @@ env:
   GH_TOKEN: ${{ github.token }}
   
 jobs:
-  greet:
+  resuscitate:
     runs-on: ubuntu-latest
     steps:
     - name: Send greeting
