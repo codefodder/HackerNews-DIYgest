@@ -3,7 +3,8 @@ name: Defibrillate
 on:
   schedule:
     - cron:  '30 * * * *'
-
+env:
+  GH_TOKEN: ${{ github.token }}
 jobs:
   greet:
     runs-on: ubuntu-latest
