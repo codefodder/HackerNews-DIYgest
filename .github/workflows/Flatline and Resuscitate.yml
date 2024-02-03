@@ -18,3 +18,7 @@ jobs:
         gh workflow disable -R codefodder/HackerNews-DIYgest 56662080
         sleep 30
         gh workflow enable -R codefodder/HackerNews-DIYgest 56662080
+    - name: Lazarus
+      if: ${{ failure() }}
+      run: |
+        gh workflow enable -R codefodder/HackerNews-DIYgest 56662080
