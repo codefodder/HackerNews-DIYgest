@@ -1,4 +1,4 @@
-name: Defibrillate
+name: Flatline & Resuscitate
 
 on:
   schedule:
@@ -10,7 +10,7 @@ env:
   GH_TOKEN: ${{ github.token }}
   
 jobs:
-  resuscitate:
+  flatline_and_resuscitate:
     runs-on: ubuntu-latest
     steps:
     - name: Flatline & Resuscitate
