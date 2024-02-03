@@ -2,7 +2,7 @@ name: Defibrillate
 
 on:
   schedule:
-    - cron:  '30 * * * *'
+    - cron:  '30 0 * * *'
     
   workflow_dispatch:
   
@@ -13,8 +13,8 @@ jobs:
   resuscitate:
     runs-on: ubuntu-latest
     steps:
-    - name: Send greeting
+    - name: Flatline & Resuscitate
       run: |
         gh workflow disable -R codefodder/HackerNews-DIYgest 56662080
-        sleep 10
+        sleep 30
         gh workflow enable -R codefodder/HackerNews-DIYgest 56662080
