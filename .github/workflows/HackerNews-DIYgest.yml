@@ -28,7 +28,7 @@ on:
 #           - "no thanks"
 
 jobs:
-  Hacker-News-DIYgest-Hourly-Scrape:
+  HackerNews-DIYgest:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
