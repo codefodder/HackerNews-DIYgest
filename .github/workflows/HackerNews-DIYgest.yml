@@ -1,4 +1,4 @@
-name: Hacker News DIYgest Hourly Scrape
+name: HackerNews DIYgest
 
 env:
   TARGET_HOUR: "08"
