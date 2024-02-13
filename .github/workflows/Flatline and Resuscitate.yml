@@ -15,7 +15,7 @@ jobs:
     steps:
     - name: Flatline & Resuscitate
       run: |
-        gh workflow enable -R codefodder/HackerNews-DIYgest 56662080
+        gh workflow enable -R codefodder/HackerNews-DIYgest 84875468
     - name: Lazarus
       run: |
-        gh workflow enable -R codefodder/HackerNews-DIYgest 56662080
+        gh workflow enable -R codefodder/HackerNews-DIYgest 84875468
