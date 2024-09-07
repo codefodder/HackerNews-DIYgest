@@ -1,0 +1,31 @@
+name: HackerNews DIYgest Backup
+
+env:
+  PSQLURL: ${{ secrets.PSQLURL }}
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch: # manual run
+
+jobs:
+  Backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Postgress 15
+        run: |
+          sudo apt install -y postgresql-common
+          yes '' | sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+          sudo apt-get install -y postgresql-client-15
+
+      - name: pg_dump
+        run: |
+          /usr/lib/postgresql/15/pg_dump $PSQLURL | gzip > $(date +%s)-hackernews-db.sql.gz
+
+      - name: Store backup
+        uses: actions/upload-artifact@v4
+        with:
+          name: hackernews-db
+          path: "*-hackernews-db.sql.gz"
