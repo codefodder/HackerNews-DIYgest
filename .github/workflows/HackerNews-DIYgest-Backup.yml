@@ -7,14 +7,6 @@ on:
   schedule:
     - cron: '0 1 * * *'
   workflow_dispatch: # manual run
-    inputs:
-      debugging:
-        description: Enable remote debugging?
-        default: "no thanks"
-        type: choice
-        options:
-          - "yes please"
-          - "no thanks"
 jobs:
   Backup:
     runs-on: ubuntu-latest
@@ -27,16 +19,9 @@ jobs:
           yes '' | sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
           sudo apt-get install -y postgresql-client-15
 
-      - name: Setup tmate session
-        if: inputs.debugging == 'yes please' && github.event_name == 'workflow_dispatch'
-        uses: mxschmitt/action-tmate@v3
-        with:
-          timeout-minutes: 1
-          limit-access-to-actor: true
-
       - name: pg_dump
         run: |
-          pg_dump --cluster 15/main $PSQLURL | gzip > $(date +%s)-hackernews-db.sql.gz
+          /usr/lib/postgresql/15/bin/pg_dump $PSQLURL | gzip > $(date +%s)-hackernews-db.sql.gz
 
       - name: Store backup
         uses: actions/upload-artifact@v4
