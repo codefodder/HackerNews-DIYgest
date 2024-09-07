@@ -22,7 +22,7 @@ jobs:
 
       - name: pg_dump
         run: |
-          /usr/lib/postgresql/15/pg_dump $PSQLURL | gzip > $(date +%s)-hackernews-db.sql.gz
+          pg_dump $PSQLURL | gzip > $(date +%s)-hackernews-db.sql.gz
 
       - name: Store backup
         uses: actions/upload-artifact@v4
