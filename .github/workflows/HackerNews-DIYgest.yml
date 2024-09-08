@@ -49,7 +49,7 @@ jobs:
           key: apt-get-cache
 
       - name: Setup Golang
-        uses: gacts/setup-go@v5
+        uses: actions/setup-go@v5
         with:
           go-version: 1.23
 
