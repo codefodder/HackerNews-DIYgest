@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
 import os
-import sys
 import ftfy
 import requests
-import select
 
-from dbc import *
+from dbc import connect_to_db, disconnect_from_db
 from bs4 import BeautifulSoup
 
 conn = connect_to_db(os.environ['PSQLURL'])
@@ -25,7 +23,7 @@ CREATE TABLE IF NOT EXISTS stories  (
     userlink TEXT);
 """)
 
-c.execute(f"""
+c.execute("""
 CREATE TABLE IF NOT EXISTS event_log (
    id SERIAL PRIMARY KEY,
    value VARCHAR(255),
@@ -69,7 +67,7 @@ for story in stories:
 
         datetime = subline_elem.select_one('span.age')['title']
         story_score_elem = subline_elem.select_one('span.score')
-        score = ftfy.fix_text(story_score_elem.text).replace(' points','')
+        score = ftfy.fix_text(story_score_elem.text).replace(' points', '')
 
         comment_url_elem = subline_elem.select_one('a:last-child')
         comment_url = f"{hn}{comment_url_elem['href']}"
@@ -89,6 +87,9 @@ for story in stories:
                 score = excluded.score
     """
 
-    conn.execute(query, (title, datetime, link, score, comment_url, username, userlink))
+    conn.execute(
+        query,
+        (title, datetime, link, score, comment_url, username, userlink)
+    )
 
 disconnect_from_db(conn, c)
