@@ -64,11 +64,12 @@ jobs:
 #           limit-access-to-actor: true
 
       - name: Tailscale
-        uses: ocodo/tailscale-github-action@v3
+        uses: tailscale/github-action@v2
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           version: 1.72.1
+          tags: tag:cicd
 
       - name: Scrape
         run: bin/hn-hourly-scrape-pg.py
