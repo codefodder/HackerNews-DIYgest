@@ -85,7 +85,7 @@ jobs:
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-          tags: tag:cicd
+          version: 1.72.1
 
       - name: Scrape
         run: bin/hn-hourly-scrape-pg.py
