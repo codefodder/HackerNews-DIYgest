@@ -31,6 +31,32 @@ CREATE TABLE IF NOT EXISTS event_log (
    datetime TIMESTAMP DEFAULT NOW());
 """)
 
+c.execute("""
+    CREATE TABLE IF NOT EXISTS tags (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(50) UNIQUE NOT NULL
+    );
+""")
+
+# Create the story_tags table if it does not exist
+c.execute("""
+    CREATE TABLE IF NOT EXISTS story_tags (
+        story_id INT NOT NULL,
+        tag_id INT NOT NULL,
+        PRIMARY KEY (story_id, tag_id),
+        FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE CASCADE,
+        FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+    );
+""")
+
+# Insert base tags if they don't already exist
+base_tags = ['favorite', 'duplicate']
+for tag in base_tags:
+    c.execute("""
+        INSERT INTO tags (name) VALUES (%s)
+        ON CONFLICT (name) DO NOTHING;
+    """, (tag,))
+
 hn = "https://news.ycombinator.com/"
 
 print(f"Read from {hn}")
