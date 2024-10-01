@@ -65,17 +65,28 @@ Please be my guest, you can fork the project and setup repo secrets (or local en
   - Postgres server `postgresql://username:passwd@host/database`
   - I am using [neon.tech](https://neon.tech)
 
-The workflow looks after everything else
+To setup the database, choose a database name, database user, etc. 
+
+The scripts expect `PSQLURL` and will work if that's pointing at a valid Postgres server.
+
+The workflow looks after everything else for you.
 
 # Email delivery time
 
-You will probably want to set the email delivery time. This is set in the
-workflow, as a schedule trigger, two cron schedules and TARGET_HOUR and TIMEZONE. 
+To set the time of day for email delivery. Check the top of the workflow. 
 
-Set them at the top of the workflow.
+There's two schedule triggers TARGET_HOUR and TIMEZONE. 
 
 # Issues
 
 Open an issue to ask if a PR submission will be accepted.  Usage info etc.
 
 If you have cool features you'd like me to add, do like I do, and DIY.
+
+# Database backups
+
+A worlflow is also provided to backup the database periodically, as a sql dump.  You'd need to manually restore it, if necessary.  Artifacts are attached to my builds if you want to pick up my HN story history.
+
+# Tailscale integration
+
+I recently added a step to allow me to use my own Tailscale to access a self hosted postgres server at home.  Check the workflow for details.
