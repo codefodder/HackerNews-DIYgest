@@ -53,7 +53,7 @@ At target hour (For me that's 8am local time), a [GitHub workflow](https://githu
 
 ## If you want to use it
 
-Please be my guest, you can fork the project and setup repo secrets 
+Please be my guest, you can fork the project and setup repo secrets (or local environment for testing)
 
 - `ACCESS_TOKEN`
   - a Github fine grained access token that can read from repo actions.
