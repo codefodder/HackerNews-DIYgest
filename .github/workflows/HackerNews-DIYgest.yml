@@ -19,13 +19,13 @@ on:
         options:
           - "yes please"
           - "no thanks"
-#       debugging:
-#         description: Enable remote debugging?
-#         default: "no thanks"
-#         type: choice
-#         options:
-#           - "yes please"
-#           - "no thanks"
+      debugging:
+        description: Enable remote debugging?
+        default: "no thanks"
+        type: choice
+        options:
+          - "yes please"
+          - "no thanks"
 
 jobs:
   HackerNews-DIYgest:
@@ -56,12 +56,12 @@ jobs:
       - name: Install mustache-cli (golang dep)
         run: go install github.com/cbroglie/mustache/cmd/mustache@latest
 
-#       - name: Setup tmate session
-#         if: inputs.debugging == 'yes please' && github.event_name == 'workflow_dispatch'
-#         uses: mxschmitt/action-tmate@v3
-#         with:
-#           timeout-minutes: 1
-#           limit-access-to-actor: true
+      - name: Setup tmate session
+        if: inputs.debugging == 'yes please' && github.event_name == 'workflow_dispatch'
+        uses: mxschmitt/action-tmate@v3
+        with:
+          timeout-minutes: 1
+          limit-access-to-actor: true
 
       - name: Tailscale
         uses: tailscale/github-action@v2
@@ -83,69 +83,11 @@ jobs:
 
       - name: Compose email payload
         run: |
-          stories=$(bin/stories.json.sh)
-          prettydate="$(TZ=$TIMEZONE date "+%A, %d %b %Y")"
-          exactdatetime="$(TZ=$TIMEZONE date "+%Y-%m-%d %H:%M:%S")"
-
-          echo "{
-            \"stories\": ${stories},
-            \"prettydate\":\"${prettydate}\",
-            \"exactdatetime\":\"${exactdatetime}\"
-          }" \
-          | mustache mustache/hackernews.diyjest.mustache.html > digest.html
-
-          cat <<HERE > digest.plaintext
-          HackerNews top 30 stories of ${prettydate}
-
-          $(bin/stories.plaintext.sh)
-
-          Generated at ${exactdatetime} - https://github.com/codefodder/HackerNews-DIYgest
-          HERE
+          bin/compose_email.sh
 
       - name: 'Should we send the mail now?'
         run: |
-
-          HOUR_NOW=$(TZ=$TIMEZONE date +%H)
-          TODAY=$(TZ=$TIMEZONE date +%Y%m%d)
-          EMAIL_SENT_TODAY=$(bin/email-already-sent-today.sh ${TODAY})
-
-          if [[ "${{ inputs.send-email }}" == 'yes please' ]]; then
-            TARGET_HOUR="$HOUR_NOW"
-            echo "Override target hour: $TARGET_HOUR"
-            echo "TARGET_HOUR=$TARGET_HOUR" >> "$GITHUB_ENV"
-          fi
-
-          if [[ "$TARGET_HOUR" == "$HOUR_NOW" && "$EMAIL_SENT_TODAY" == "0" ]]; then
-            SEND_MAIL="true"
-          else
-            SEND_MAIL="false"
-          fi
-
-          echo "SEND_MAIL=${SEND_MAIL}" >> "$GITHUB_ENV"
-
-          cat <<DEBUG_EMAIL_SCHEDULE >> "$GITHUB_STEP_SUMMARY"
-
-          Email schedule info
-
-          - Email(s) Sent Today: ${EMAIL_SENT_TODAY}
-          - Today: ${TODAY}
-          - Timezone: ${TIMEZONE}
-          - Target Hour: ${TARGET_HOUR}
-          - Current Hour: ${HOUR_NOW}
-          - SEND_MAIL: ${SEND_MAIL}
-
-          DEBUG_EMAIL_SCHEDULE
-
-      - name: Debug SEND_MAIL
-        run: |
-          cat <<DEBUG >> "$GITHUB_STEP_SUMMARY"
-
-          # Debug SEND_MAIL
-
-          - env.SEND_MAIL: ${{ env.SEND_MAIL }}
-          - env.SEND_MAIL == 'true'?: ${{ env.SEND_MAIL == 'true' }}
-
-          DEBUG
+          bin/check_email_condition.sh
 
       - name: Email HackerNews DIYgest
         id: sending_email
