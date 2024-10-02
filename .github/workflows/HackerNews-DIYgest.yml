@@ -84,6 +84,8 @@ jobs:
         run: bin/compose-email.sh
 
       - name: Check email send conditions
+        env:
+          input_send_email: ${{ inputs.send_email }}
         run: bin/check-email-condition.sh
 
       - name: Email HackerNews DIYgest
