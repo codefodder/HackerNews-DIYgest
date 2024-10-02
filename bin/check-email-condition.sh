@@ -4,7 +4,9 @@ HOUR_NOW=$(TZ=$TIMEZONE date +%H)
 TODAY=$(TZ=$TIMEZONE date +%Y%m%d)
 EMAIL_SENT_TODAY=$(bin/email-already-sent-today.sh ${TODAY})
 
-if [[ "${{ inputs.send-email }}" == 'yes please' ]]; then
+echo "User override email target hour: $INPUTS_SEND_EMAIL"
+
+if [[ "${INPUTS_SEND_EMAIL}" == 'yes please' ]]; then
   TARGET_HOUR="$HOUR_NOW"
   echo "Override target hour: $TARGET_HOUR"
   echo "TARGET_HOUR=$TARGET_HOUR" >> "$GITHUB_ENV"

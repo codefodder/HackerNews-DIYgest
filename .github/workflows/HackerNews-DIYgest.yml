@@ -12,7 +12,7 @@ on:
 
   workflow_dispatch:
     inputs:
-      send-email:
+      send_email:
         description: Email target hour override?
         default: "no thanks"
         type: choice
