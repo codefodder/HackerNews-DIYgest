@@ -75,19 +75,16 @@ jobs:
         run: bin/hn-hourly-scrape-pg.py
 
       - name: Review Current Top Stories
-        run: |
-          bin/stories.markdown.sh >> "$GITHUB_STEP_SUMMARY"
+        run: bin/stories.markdown.sh >> "$GITHUB_STEP_SUMMARY"
 
       - name: Compose subject line
         run: bin/compose-subject-line.sh
 
       - name: Compose email payload
-        run: |
-          bin/compose_email.sh
+        run: bin/compose_email.sh
 
-      - name: 'Should we send the mail now?'
-        run: |
-          bin/check_email_condition.sh
+      - name: Check email send conditions
+        run: bin/check_email_condition.sh
 
       - name: Email HackerNews DIYgest
         id: sending_email
