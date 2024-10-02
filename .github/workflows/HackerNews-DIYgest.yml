@@ -81,10 +81,10 @@ jobs:
         run: bin/compose-subject-line.sh
 
       - name: Compose email payload
-        run: bin/compose_email.sh
+        run: bin/compose-email.sh
 
       - name: Check email send conditions
-        run: bin/check_email_condition.sh
+        run: bin/check-email-condition.sh
 
       - name: Email HackerNews DIYgest
         id: sending_email
@@ -106,6 +106,4 @@ jobs:
 
       - name: 'Event log - emailSent'
         if: ${{ success() }}
-        run: |
-          today=$(TZ=$TIMEZONE date +%Y%m%d)
-          bin/email-sent-event.sh $today
+        run: today=$(TZ=$TIMEZONE date +%Y%m%d) bin/email-sent-event.sh $today
