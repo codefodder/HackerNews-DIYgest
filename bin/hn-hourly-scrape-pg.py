@@ -102,13 +102,16 @@ for story in stories:
         userlink = ""
         score = 0
         datetime = subtext_elem.select_one('span.age')['title']
+        # Debug logging:
+        print(datetime)
         # datetime content changed on 24-10-2024 
         # It became a dual: ISO8601 DateTime string & Unix Epoch Seconds with 
         # a space separator between the two. e.g. 2024-10-23T08:13:47 1729753343
         #
         # We'll process the date using a check and favor the Epoch Seconds
         datetime = datetime.split(' ').pop() # Pop the epoch seconds
-        
+        print("extract Unix Epoch:")
+        print(datetime)
         comment_url = ""
 
     # Insert stories
