@@ -86,6 +86,7 @@ for story in stories:
     # Extract comment URL and count
     subtext_elem = story.find_next_sibling('tr')
     subline_elem = subtext_elem.select_one('span.subline')
+    subline_elem_2 = subtext_elem.select_one('span.subline:nth-child(1)')
     if subline_elem:
         username_elem = subline_elem.select_one('a.hnuser')
         username = ftfy.fix_text(username_elem.text).strip()
@@ -95,7 +96,7 @@ for story in stories:
         story_score_elem = subline_elem.select_one('span.score')
         score = ftfy.fix_text(story_score_elem.text).replace(' points', '')
 
-        comment_url_elem = subline_elem.select_one('a:last-child')
+        comment_url_elem = subline_elem_2.select_one('a:nth-child(6)')
         comment_url = f"{hn}{comment_url_elem['href']}"
     else:
         username = ""
