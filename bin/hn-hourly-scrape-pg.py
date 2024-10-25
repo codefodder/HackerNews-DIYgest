@@ -86,11 +86,16 @@ for story in stories:
     # Extract comment URL and count
     subtext_elem = story.find_next_sibling('tr')
     subline_elem = subtext_elem.select_one('span.subline')
-    comment_url_elem = subtext_elem.select_one(
-        'span.subline:nth-child(1) > a:nth-child(6)'
-    )
-    comment_url = f"{hn}{comment_url_elem['href']}"
-    print(f'scraped comment url:{comment_url}')
+
+    try:
+        comment_url_elem = subtext_elem.select_one(
+            'span.subline:nth-child(1) > a:nth-child(6)'
+        )
+        comment_url = f"{hn}{comment_url_elem['href']}"
+    except Exception:
+        comment_url = ""
+        pass
+
     if subline_elem:
         username_elem = subline_elem.select_one('a.hnuser')
         username = ftfy.fix_text(username_elem.text).strip()
