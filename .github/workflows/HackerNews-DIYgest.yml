@@ -49,12 +49,14 @@ jobs:
           key: apt-get-cache
 
       - name: Setup Golang
-        uses: actions/setup-go@v5
-        with:
-          go-version: 1.23
+        run: |
+          wget https://go.dev/dl/go1.23.1.linux-amd64.tar.gz
+          sudo tar -C /usr/local -xzvf go1.23.1.linux-amd64.tar.gz
+          rm -rf go1.23.1.linux-amd64.tar.gz
 
       - name: Install mustache-cli (golang dep)
-        run: go install github.com/cbroglie/mustache/cmd/mustache@latest
+        run: |
+          go install github.com/cbroglie/mustache/cmd/mustache@latest
 
       - name: Setup tmate session
         if: inputs.debugging == 'yes please' && github.event_name == 'workflow_dispatch'
