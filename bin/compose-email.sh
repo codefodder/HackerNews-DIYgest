@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 
+# generate digest.json
 bin/compose-data.sh
-cat digest.json | mustache mustache/hackernews.diygest.mustache.html > digest.html
+
+mustache mustache/hackernews.diygest.mustache.html < digest.json > digest.html
 
 cat <<HERE > digest.plaintext
 HackerNews top 50 stories of ${prettydate}
