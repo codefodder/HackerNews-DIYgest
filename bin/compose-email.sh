@@ -7,7 +7,7 @@ echo "{\"stories\": ${stories}, \"prettydate\":\"${prettydate}\", \"exactdatetim
     | mustache mustache/hackernews.diygest.mustache.html > digest.html
 
 cat <<HERE > digest.plaintext
-HackerNews top 30 stories of ${prettydate}
+HackerNews top 50 stories of ${prettydate}
 
 $(bin/stories.plaintext.sh)
 

@@ -2,3 +2,7 @@
 hn.html
 __pycache__
 .DS_Store
+digest.html
+digest.plaintext
+github.env
+github_step_summary.log

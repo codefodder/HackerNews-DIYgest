@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-HOUR_NOW=$(TZ=$TIMEZONE date +%H)
-TODAY=$(TZ=$TIMEZONE date +%Y%m%d)
-EMAIL_SENT_TODAY=$(bin/email-already-sent-today.sh ${TODAY})
+export HOUR_NOW="$(TZ=$TIMEZONE date +%H)"
+export TODAY="$(TZ=$TIMEZONE date +%Y%m%d)"
+export EMAIL_SENT_TODAY="$(bin/email-already-sent-today.sh ${TODAY})"
 
 echo "User override email target hour: $inputs_send_email"
 
 if [[ "${inputs_send_email}" == 'yes please' ]]; then
-  TARGET_HOUR="$HOUR_NOW"
+  export TARGET_HOUR="$HOUR_NOW"
   echo "Override target hour: $TARGET_HOUR"
   echo "TARGET_HOUR=$TARGET_HOUR" >> "$GITHUB_ENV"
 fi
