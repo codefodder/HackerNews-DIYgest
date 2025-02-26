@@ -1,10 +1,7 @@
 #!/usr/bin/env sh
-stories=$(bin/stories.json.sh)
-prettydate="$(TZ=$TIMEZONE date "+%A, %d %b %Y")"
-exactdatetime="$(TZ=$TIMEZONE date "+%Y-%m-%d %H:%M:%S")"
 
-echo "{\"stories\": ${stories}, \"prettydate\":\"${prettydate}\", \"exactdatetime\":\"${exactdatetime}\"}" \
-    | mustache mustache/hackernews.diygest.mustache.html > digest.html
+bin/compose-data.sh
+cat digest.json | mustache mustache/hackernews.diygest.mustache.html > digest.html
 
 cat <<HERE > digest.plaintext
 HackerNews top 50 stories of ${prettydate}
