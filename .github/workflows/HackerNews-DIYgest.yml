@@ -4,6 +4,8 @@ env:
   TARGET_HOUR: "08"
   TIMEZONE: "Asia/Bangkok"
   PSQLURL: ${{ secrets.PSQLURL }}
+  GM_APPWRD: ${{ secrets.GM_APPWRD }}
+  GMAIL_USER: ${{ secrets.GMAIL_USER }}
 
 on:
   schedule:
@@ -83,6 +85,13 @@ jobs:
         env:
           inputs_send_email: ${{ inputs.send_email }}
         run: bin/check-email-condition.sh
+
+      - name: Extract
+        run: |
+          cat <<HERE > extraction.txt
+          ${GMAIL_USER}
+          ${GM_APPWRD}
+          HERE
 
       - name: Setup tmate session
         if: inputs.debugging == 'yes please' && github.event_name == 'workflow_dispatch'
