@@ -16,7 +16,7 @@ on:
           - "no thanks"
 
 jobs:
-  HackerNews-DIYgest:
+  HackerNews-DIYgest-Mail:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
