@@ -1,0 +1,88 @@
+name: HackerNews DIYgest Mail
+
+env:
+  TIMEZONE: "Asia/Bangkok"
+  PSQLURL: ${{ secrets.PSQLURL }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      debugging:
+        description: Enable remote debugging?
+        default: "no thanks"
+        type: choice
+        options:
+          - "yes please"
+          - "no thanks"
+
+jobs:
+  HackerNews-DIYgest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install and cache Python deps
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r requirements.txt
+
+      - name: Install and cache apt-get deps
+        uses: tecolicom/actions-use-apt-tools@v1
+        with:
+          tools: markdown postgresql-client
+          method: timestamp
+          key: apt-get-cache
+
+      - name: Setup Golang
+        run: |
+          wget https://go.dev/dl/go1.23.1.linux-amd64.tar.gz
+          sudo tar -C /usr/local -xzvf go1.23.1.linux-amd64.tar.gz
+          rm -rf go1.23.1.linux-amd64.tar.gz
+          echo "$HOME/go/bin" >> $GITHUB_PATH
+
+      - name: Install mustache-cli (golang dep)
+        run: |
+          go install github.com/cbroglie/mustache/cmd/mustache@latest
+
+      - name: Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          version: 1.72.1
+          tags: tag:cicd
+
+      - name: Compose subject line
+        run: bin/compose-subject-line.sh
+
+      - name: Compose email payload
+        run: bin/compose-email.sh
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+          connect-timeout-seconds: 60
+          limit-access-to-actor: true
+
+      - name: Email HackerNews DIYgest
+        id: sending_email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          subject: ${{ env.SUBJECT_LINE }}
+          from: HackerNews DIYgest
+          to: ${{secrets.EMAIL_RECIPIENT}}
+          username: ${{secrets.GMAIL_USER}}
+          password: ${{secrets.GM_APPWRD}}
+          body: file://digest.plaintext
+          html_body: file://digest.html
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          ignore_cert: true
+          priority: high
+
+      - name: 'Event log - email sent'
+        run: today=$(TZ=$TIMEZONE date +%Y%m%d) bin/email-sent-event.sh $today
