@@ -1,0 +1,69 @@
+name: HackerNews DIYgest Scrape
+
+env:
+  TIMEZONE: "Asia/Bangkok"
+  PSQLURL: ${{ secrets.PSQLURL }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      debugging:
+        description: Enable remote debugging?
+        default: "no thanks"
+        type: choice
+        options:
+          - "yes please"
+          - "no thanks"
+
+jobs:
+  HackerNews-DIYgest-Scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install and cache Python deps
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r requirements.txt
+
+      - name: Install and cache apt-get deps
+        uses: tecolicom/actions-use-apt-tools@v1
+        with:
+          tools: markdown postgresql-client
+          method: timestamp
+          key: apt-get-cache
+
+      - name: Setup Golang
+        run: |
+          wget https://go.dev/dl/go1.23.1.linux-amd64.tar.gz
+          sudo tar -C /usr/local -xzvf go1.23.1.linux-amd64.tar.gz
+          rm -rf go1.23.1.linux-amd64.tar.gz
+          echo "$HOME/go/bin" >> $GITHUB_PATH
+
+      - name: Install mustache-cli (golang dep)
+        run: |
+          go install github.com/cbroglie/mustache/cmd/mustache@latest
+
+      - name: Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          version: 1.72.1
+          tags: tag:cicd
+
+      - name: Scrape
+        run: bin/hn-hourly-scrape-pg.py
+
+      - name: Review Current Top Stories
+        run: bin/stories.markdown.sh >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Setup tmate session
+        if: inputs.debugging == 'yes please' && github.event_name == 'workflow_dispatch'
+        uses: mxschmitt/action-tmate@v3
+        with:
+          connect-timeout-seconds: 60
+          limit-access-to-actor: true
