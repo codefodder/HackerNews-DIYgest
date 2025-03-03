@@ -6,14 +6,6 @@ env:
 
 on:
   workflow_dispatch:
-    inputs:
-      debugging:
-        description: Enable remote debugging?
-        default: "no thanks"
-        type: choice
-        options:
-          - "yes please"
-          - "no thanks"
 
 jobs:
   HackerNews-DIYgest-Mail:
@@ -60,12 +52,6 @@ jobs:
 
       - name: Compose email payload
         run: bin/compose-email.sh
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          connect-timeout-seconds: 60
-          limit-access-to-actor: true
 
       - name: Email HackerNews DIYgest
         id: sending_email
