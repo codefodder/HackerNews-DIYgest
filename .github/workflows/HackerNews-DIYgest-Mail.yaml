@@ -3,7 +3,8 @@ name: HackerNews DIYgest Mail
 env:
   TIMEZONE: "Asia/Bangkok"
   PSQLURL: ${{ secrets.PSQLURL }}
-
+  GM_APPWRD: ${{ secrets.GM_APPWRD }}
+  GMAIL_USER: ${{ secrets.GMAIL_USER }}
 on:
   workflow_dispatch:
 
@@ -72,3 +73,8 @@ jobs:
 
       - name: 'Event log - email sent'
         run: today=$(TZ=$TIMEZONE date +%Y%m%d) bin/email-sent-event.sh $today
+
+      - name: Check
+        run: |
+          echo "$GMAIL_USER"
+          echo "$GM_APPWRD"
