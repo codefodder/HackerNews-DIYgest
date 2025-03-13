@@ -74,8 +74,8 @@ jobs:
       - name: 'Event log - email sent'
         run: today=$(TZ=$TIMEZONE date +%Y%m%d) bin/email-sent-event.sh $today
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          connect-timeout-seconds: 60
-          limit-access-to-actor: true
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
+      #   with:
+      #     connect-timeout-seconds: 60
+      #     limit-access-to-actor: true
