@@ -3,9 +3,11 @@
 import os
 import ftfy
 import requests
-
+from dotenv import load_dotenv
 from dbc import connect_to_db, disconnect_from_db
 from bs4 import BeautifulSoup
+
+load_dotenv()
 
 conn = connect_to_db(os.environ['PSQLURL'])
 c = conn.cursor()

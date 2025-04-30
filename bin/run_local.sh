@@ -22,7 +22,7 @@ export GITHUB_STEP_SUMMARY="${PRJ_ROOT}/github_step_summary.log"
 [[ -e "$GITHUB_STEP_SUMMARY" ]] && rm "$GITHUB_STEP_SUMMARY"
 touch "$GITHUB_STEP_SUMMARY"
 
-$PRJ_ROOT/bin/hn-hourly-scrape-pg.py
+uv run --with ftfy $PRJ_ROOT/bin/hn-hourly-scrape-pg.py
 $PRJ_ROOT/bin/stories.markdown.sh >> "$GITHUB_STEP_SUMMARY"
 $PRJ_ROOT/bin/compose-subject-line.sh
 $PRJ_ROOT/bin/compose-email.sh
@@ -45,3 +45,5 @@ echo "SUBJECT_LINE: $SUBJECT_LINE"
 ##     ignore_cert: true
 ##     priority: high
 ##
+
+uv run --with ftfy bin/email-send.py

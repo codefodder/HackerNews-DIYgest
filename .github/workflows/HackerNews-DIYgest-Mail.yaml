@@ -3,8 +3,6 @@ name: HackerNews DIYgest Mail
 env:
   TIMEZONE: "Asia/Bangkok"
   PSQLURL: ${{ secrets.PSQLURL }}
-  GM_APPWRD: ${{ secrets.GM_APPWRD }}
-  GMAIL_USER: ${{ secrets.GMAIL_USER }}
 on:
   workflow_dispatch:
 
