@@ -69,9 +69,14 @@ jobs:
           ignore_cert: true
           priority: high
 
-      - name: 'Event log - email sent'
-        run: today=$(TZ=$TIMEZONE date +%Y%m%d) bin/email-sent-event.sh $today
+      - name: 'Event log - email...'
+        id: email-send        
+        run: |
+          today=$(TZ=$TIMEZONE date +%Y%m%d) bin/email-sent-event.sh $today
+          echo "email_sent=$today" >> $GITHUB_OUTPUT
 
+      - name: ${{ steps.email-send.outputs.email_sent }}
+        run: echo ${{ steps.email-send.outputs.email_sent }}
       # - name: Setup tmate session
       #   uses: mxschmitt/action-tmate@v3
       #   with:
