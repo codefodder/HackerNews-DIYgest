@@ -72,8 +72,7 @@ jobs:
       - name: 'Event log - email...'
         id: email-send        
         run: |
-          today=$(TZ=$TIMEZONE date +%Y%m%d) bin/email-sent-event.sh $today
-          echo "email_sent=$today" >> $GITHUB_OUTPUT
+          echo "email_sent=$(today=$(TZ=$TIMEZONE date +%Y%m%d) bin/email-sent-event.sh $today)" >> $GITHUB_OUTPUT
 
       - name: ${{ steps.email-send.outputs.email_sent }}
         run: echo ${{ steps.email-send.outputs.email_sent }}
