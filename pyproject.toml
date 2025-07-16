@@ -1,0 +1,14 @@
+[project]
+name = "hackernews-diygest"
+version = "0.1.0"
+description = "Generate daily digest emails from news.ycombinator.com"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "beautifulsoup4==4.9.3",
+    "ftfy==6.0.3",
+    "psycopg==3.1.9",
+    "python-dotenv==1.0.1",
+    "pyyaml==6.0.2",
+    "requests==2.25.1",
+]

@@ -8,3 +8,4 @@ github.env
 github_step_summary.log
 digest.json
 .env
+github_step_summary.log*

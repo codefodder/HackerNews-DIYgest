@@ -7,20 +7,12 @@ import sys
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-# Config file
-email_config = "email_config.yaml"
-from_line = "HackerNews DIYgest"
-# Load environment variables
-subject_line = os.getenv('SUBJECT_LINE')
-gmail_password = os.getenv('GM_APPWRD')
-gmail_user = os.getenv('GMAIL_USER')
-
 
 def usage():
     print(f"""
     Usage:
 
-    python3 email-send.py
+    python email-send.py <SUBJECT_LINE>
 
     Requires {email_config} as valid YAML with:
 
@@ -37,6 +29,22 @@ def usage():
     NOTE This program is usually executed by bin/run_local.sh
 
     """)
+
+
+def get_subject_line() -> str:
+    """
+    read SUBJECT_LINE from argv[1] and return it or raise a ValueError if blank
+    i.e. Subject Line required.
+    """
+    if len(sys.argv) > 1:
+        subject_line = sys.argv[1].strip()
+        if not subject_line:
+            raise ValueError("Subject line cannot be blank.")
+        else:
+            return subject_line
+    else:
+        usage()
+        raise ValueError("Subject line is required.")
 
 
 def validate_file_exists(file_path, description):
@@ -56,6 +64,15 @@ def validate_string_value(value, description):
         sys.exit(1)
 
 
+# Config file
+email_config = "email_config.yaml"
+from_line = "HackerNews DIYgest"
+# Load environment variables
+subject_line = get_subject_line()
+gmail_password = os.getenv('GM_APPWRD')
+gmail_user = os.getenv('GMAIL_USER')
+
+        
 # Validate environment variables
 validate_string_value(subject_line, "Environment variable SUBJECT_LINE")
 validate_string_value(gmail_password, "Environment variable GM_APPWRD")
