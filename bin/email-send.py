@@ -1,12 +1,16 @@
-#!/usr/bin/env python3
+# /// script
+# dependencies = ["pyyaml", "dotenv"]
+# ///
 
 import os
 import smtplib
 import yaml
 import sys
+from dotenv import load_dotenv
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+load_dotenv()
 
 def usage():
     print(f"""
@@ -44,7 +48,7 @@ def get_subject_line() -> str:
             return subject_line
     else:
         usage()
-        raise ValueError("Subject line is required.")
+        print("Subject line is required.")
 
 
 def validate_file_exists(file_path, description):

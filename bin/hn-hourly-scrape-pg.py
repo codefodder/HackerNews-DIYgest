@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+# /// script
+# dependencies = ['ftfy', 'bs4', 'requests', 'psycopg', 'dotenv']
+# ///
 
 import os
 import ftfy

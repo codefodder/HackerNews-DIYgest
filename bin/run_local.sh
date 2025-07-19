@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 export TIMEZONE="Asia/Bangkok"
+SCRIPT_DIR=$(dirname $0)
 
 # We assume the python requirements are already available.
 # PSQLURL should be defined in the environment (.env/autoenv)
 # Mustache should be available
 # Markdown should be available (pulldown-cmark)
 
-PRJ_ROOT="$(git rev-parse --show-toplevel)"
+PRJ_ROOT="$(git -C $SCRIPT_DIR rev-parse --show-toplevel)"
 
 export GITHUB_ENV="${PRJ_ROOT}/github.env"
 [[ -e "$GITHUB_ENV" ]] && rm "$GITHUB_ENV"
@@ -26,7 +27,7 @@ $PRJ_ROOT/bin/compose-email.sh
 source "$GITHUB_ENV"
 echo "SUBJECT_LINE: $SUBJECT_LINE"
 
-uv run --with ftfy bin/email-send.py "$SUBJECT_LINE"
+uv run $PRJ_ROOT/bin/email-send.py "$SUBJECT_LINE"
 
 $PRJ_ROOT/bin/summary.sh
 $PRJ_ROOT/bin/cleanup.sh
