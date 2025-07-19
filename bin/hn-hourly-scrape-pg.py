@@ -112,7 +112,8 @@ for story in stories:
         userlink = ""
         score = 0
         datetime = subtext_elem.select_one('span.age')['title']
-        
+
+    print(f"{title} :: {link} :: {datetime} :: score: {score}")
     # datetime content changed on 24-10-2024 
     # It became a dual: ISO8601 DateTime string & Unix Epoch Seconds with 
     # a space separator between the two. e.g. 2024-10-23T08:13:47 1729753343
