@@ -30,4 +30,4 @@ echo "SUBJECT_LINE: $SUBJECT_LINE"
 uv run $PRJ_ROOT/bin/email-send.py "$SUBJECT_LINE"
 
 $PRJ_ROOT/bin/summary.sh
-$PRJ_ROOT/bin/cleanup.sh
+# $PRJ_ROOT/bin/cleanup.sh

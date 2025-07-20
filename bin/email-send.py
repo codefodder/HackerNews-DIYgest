@@ -1,5 +1,8 @@
 # /// script
-# dependencies = ["pyyaml", "dotenv"]
+# dependencies = [
+#     "pyyaml",
+#     "dotenv",
+# ]
 # ///
 
 import os
@@ -33,22 +36,29 @@ def usage():
     NOTE This program is usually executed by bin/run_local.sh
 
     """)
-
-
+   
+    
 def get_subject_line() -> str:
     """
-    read SUBJECT_LINE from argv[1] and return it or raise a ValueError if blank
-    i.e. Subject Line required.
-    """
+    Check for SUBJECT_LINE in os.environ and read it from there.
+    Otherwise read subject line from argv[1] and return it
+    or exit with usage message if blank
+    """   
+    
+    error_message = "Subject line cannot be blank."
+    if os.environ.get("SUBJECT_LINE"):        
+        return os.environ.get("SUBJECT_LINE")
+
     if len(sys.argv) > 1:
         subject_line = sys.argv[1].strip()
         if not subject_line:
-            raise ValueError("Subject line cannot be blank.")
+            raise ValueError(error_message)
         else:
             return subject_line
     else:
         usage()
-        print("Subject line is required.")
+        print(error_message)
+        sys.exit(1)
 
 
 def validate_file_exists(file_path, description):

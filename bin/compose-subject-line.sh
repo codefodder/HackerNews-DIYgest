@@ -6,4 +6,4 @@ SUBJECT_LINE=$(bin/top-3-titles.sh |
 
 echo "Github env file: $GITHUB_ENV"
 
-echo 'SUBJECT_LINE="HackerNews DIYgest — '"${SUBJECT_LINE}"'"' >> "$GITHUB_ENV"
+echo 'SUBJECT_LINE="HackerNews DIYgest — '"${SUBJECT_LINE//\"/\\\"}"'"' >> "$GITHUB_ENV"
