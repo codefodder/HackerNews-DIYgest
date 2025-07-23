@@ -1,4 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
+if [[ -z $PSQLURL ]];then
+    echo "PSQLURL not in env"
+    exit 1
+fi
 
 psql -tAq $PSQLURL <<HERE
     SET client_encoding TO 'UTF8';
