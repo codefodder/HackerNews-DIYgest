@@ -12,7 +12,7 @@ After=network-online.target
 [Service]
 Type=oneshot
 WorkingDirectory=%h/workspace/HackerNews-DIYgest
-ExecStart=%h/workspace/HackerNews-DIYgest/bin/run_with_env.sh %f
+ExecStart=%f
 StandardOutput=append:%h/.hacker-news-diygest.log
 StandardError=inherit
 EOF
@@ -23,7 +23,8 @@ Description=Run HackerNews scrape script
 
 [Service]
 Type=oneshot
-ExecStart=%h/workspace/HackerNews-DIYgest/bin/run_with_env.sh uv run bin/hn-hourly-scrape-pg.py
+WorkingDirectory=%h/workspace/HackerNews-DIYgest
+ExecStart=%h/.local/bin/uv run %h/workspace/HackerNews-DIYgest/bin/hn-hourly-scrape-pg.py
 EOF
 
 cat <<EOF > ~/.config/systemd/user/hndiygest-hourly.timer
@@ -44,7 +45,8 @@ Description=Run HackerNews digest email
 
 [Service]
 Type=oneshot
-ExecStart=%h/workspace/HackerNews-DIYgest/bin/run_with_env.sh bin/run_local.sh
+WorkingDirectory=%h/workspace/HackerNews-DIYgest
+ExecStart=%h/workspace/HackerNews-DIYgest/bin/run_local.sh
 EOF
 
 cat <<EOF > ~/.config/systemd/user/hndiygest-daily.timer
