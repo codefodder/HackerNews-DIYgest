@@ -116,18 +116,27 @@ for story in stories:
         datetime = subtext_elem.select_one('span.age')['title']
 
     print(f"{title} :: {link} :: {datetime} :: score: {score}")
-    # datetime content changed on 24-10-2024 
-    # It became a dual: ISO8601 DateTime string & Unix Epoch Seconds with 
-    # a space separator between the two. e.g. 2024-10-23T08:13:47 1729753343
+
+    # HN timestamp format has changed over time.
     #
-    # We'll process the date using a check and favor the Epoch Seconds
-    datetime = datetime.split(' ').pop() # Pop the epoch seconds
+    # Older format:
+    #   2024-10-23T08:13:47 1729753343
+    #
+    # Newer format:
+    #   2026-08-29T06:06:51.000000Z
+    #
+    # Use the Unix epoch when available. Otherwise, pass the ISO-8601
+    # timestamp through to PostgreSQL.
+    if ' ' in datetime:
+        datetime = datetime.split(' ').pop()  # Use the epoch seconds
+    else:
+        datetime = datetime.replace('Z', '+00:00')
 
     # Insert stories
     query = """
             INSERT INTO stories
             (title, datetime, link, score, comment_url, username, userlink)
-            VALUES (%s, to_timestamp(%s), %s, %s, %s, %s, %s)
+            VALUES (%s, %s::timestamptz, %s, %s, %s, %s, %s)
             ON CONFLICT(link) DO UPDATE SET
                 score = excluded.score
     """
@@ -138,3 +147,4 @@ for story in stories:
     )
 
 disconnect_from_db(conn, c)
+
