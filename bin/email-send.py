@@ -36,17 +36,17 @@ def usage():
     NOTE This program is usually executed by bin/run_local.sh
 
     """)
-   
-    
+
+
 def get_subject_line() -> str:
     """
     Check for SUBJECT_LINE in os.environ and read it from there.
     Otherwise read subject line from argv[1] and return it
     or exit with usage message if blank
-    """   
-    
+    """
+
     error_message = "Subject line cannot be blank."
-    if os.environ.get("SUBJECT_LINE"):        
+    if os.environ.get("SUBJECT_LINE"):
         return os.environ.get("SUBJECT_LINE")
 
     if len(sys.argv) > 1:
@@ -86,7 +86,7 @@ subject_line = get_subject_line()
 gmail_password = os.getenv('GM_APPWRD')
 gmail_user = os.getenv('GMAIL_USER')
 
-        
+
 # Validate environment variables
 validate_string_value(subject_line, "Environment variable SUBJECT_LINE")
 validate_string_value(gmail_password, "Environment variable GM_APPWRD")
