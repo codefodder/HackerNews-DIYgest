@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$HOME/go/bin:$PATH
-export TIMEZONE="Asia/Bangkok"
 SCRIPT_DIR=$(dirname $0)
 
 
@@ -22,7 +21,7 @@ export GITHUB_STEP_SUMMARY="${PRJ_ROOT}/github_step_summary.log"
 [[ -e "$GITHUB_STEP_SUMMARY" ]] && rm "$GITHUB_STEP_SUMMARY"
 touch "$GITHUB_STEP_SUMMARY"
 
-~/.local/bin/uv run --with ftfy $PRJ_ROOT/bin/hn-hourly-scrape-pg.py
+~/.local/bin/uv run $PRJ_ROOT/bin/hn-hourly-scrape-pg.py
 $PRJ_ROOT/bin/stories.markdown.sh >> "$GITHUB_STEP_SUMMARY"
 $PRJ_ROOT/bin/compose-subject-line.sh
 $PRJ_ROOT/bin/compose-email.sh
