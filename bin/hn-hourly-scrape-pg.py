@@ -1,5 +1,5 @@
 # /// script
-# dependencies = ['ftfy', 'beautifulsoup4', 'requests', 'python-dotenv']
+# dependencies = ['ftfy', 'bs4', 'requests', 'python-dotenv']
 # ///
 
 import os

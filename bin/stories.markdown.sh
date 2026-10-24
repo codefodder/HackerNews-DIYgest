@@ -1,24 +1,37 @@
 #!/bin/bash
+set -euo pipefail
 
-source .env
+cd "$(dirname "$0")/.."
 
-if [[ -z $PSQLURL ]];then
-    echo "PSQLURL not in env"
-    exit 1
-fi
+python3 - <<'PY'
+import os
+import sqlite3
+from pathlib import Path
 
-psql -tAq $PSQLURL <<HERE
-    SET client_encoding TO 'UTF8';
+db_path = Path(
+    os.environ.get("HNDB_SQLITE", "/mnt/Mira/hndb/hnstories.sqlite3")
+).resolve()
 
-    SELECT FORMAT('- [%s](%s)
-    - %s points // [comments](%s)',
-                  title, link, score, comment_url)
-    FROM stories
+if not db_path.is_file():
+    raise FileNotFoundError(f"SQLite database does not exist: {db_path}")
 
-    WHERE datetime
-    BETWEEN current_date - interval '1 day'
-    AND current_date
+conn = sqlite3.connect(f"{db_path.as_uri()}?mode=ro", uri=True)
 
-    ORDER BY score DESC, datetime DESC
-    LIMIT 50;
-HERE
+try:
+    rows = conn.execute("""
+        SELECT title, link, score, comment_url
+        FROM stories
+        WHERE datetime BETWEEN
+            CAST(strftime('%s', 'now', 'start of day', '-1 day') AS INTEGER)
+            AND
+            CAST(strftime('%s', 'now', 'start of day', '+1 day') AS INTEGER) - 1
+        ORDER BY score DESC, datetime DESC
+        LIMIT 50
+    """).fetchall()
+
+    for title, link, score, comment_url in rows:
+        print(f"- [{title}]({link})")
+        print(f"    - {score} points // [comments]({comment_url})")
+finally:
+    conn.close()
+PY

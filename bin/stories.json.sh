@@ -1,26 +1,45 @@
 #!/bin/bash
+set -euo pipefail
 
-source .env
+cd "$(dirname "$0")/.."
 
-if [[ -z $PSQLURL ]];then
-    echo "PSQLURL not in env"
-    exit 1
-fi
+python3 - <<'PY'
+import json
+import os
+import sqlite3
+from pathlib import Path
 
-psql -tAq $PSQLURL <<HERE
-    SET client_encoding TO 'UTF8';
+db_path = Path(
+    os.environ.get("HNDB_SQLITE", "/mnt/Mira/hndb/hnstories.sqlite3")
+).resolve()
 
-    SELECT json_agg(row_to_json(stories)) AS stories_json
-    FROM (
-      SELECT id, title, link, score, comment_url,
-             ROW_NUMBER() OVER (ORDER BY score DESC, datetime DESC) AS number
-      FROM stories
+if not db_path.is_file():
+    raise FileNotFoundError(f"SQLite database does not exist: {db_path}")
 
-      WHERE datetime
-      BETWEEN current_date - interval '1 day'
-      AND current_date
+conn = sqlite3.connect(f"{db_path.as_uri()}?mode=ro", uri=True)
+conn.row_factory = sqlite3.Row
 
-      ORDER BY score DESC, datetime DESC
-      LIMIT 50
-    ) AS stories;
-HERE
+try:
+    rows = conn.execute("""
+        SELECT
+            id,
+            title,
+            link,
+            score,
+            comment_url,
+            ROW_NUMBER() OVER (
+                ORDER BY score DESC, datetime DESC
+            ) AS number
+        FROM stories
+        WHERE datetime BETWEEN
+            CAST(strftime('%s', 'now', 'start of day', '-1 day') AS INTEGER)
+            AND
+            CAST(strftime('%s', 'now', 'start of day', '+1 day') AS INTEGER) - 1
+        ORDER BY score DESC, datetime DESC
+        LIMIT 50
+    """).fetchall()
+
+    print(json.dumps([dict(row) for row in rows], ensure_ascii=False))
+finally:
+    conn.close()
+PY
