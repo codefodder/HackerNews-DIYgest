@@ -26,7 +26,7 @@ try:
             title,
             link,
             score,
-            comment_url,
+            'https://news.ycombinator.com/item?id=' || id AS comment_url
             ROW_NUMBER() OVER (
                 ORDER BY score DESC, datetime DESC
             ) AS number
